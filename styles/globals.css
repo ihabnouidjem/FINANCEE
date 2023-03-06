@@ -24,6 +24,7 @@
   --orange-3: #e6d11f;
   --orange-2: #f5e829;
   --orange-1: #e9fb7e;
+  --orange-0: rgb(233 251 126 / 30%);
   --blue-link: rgb(42, 96, 234);
   --blue-60: rgb(42 96 234 / 60%);
   --green-footer-darker: #354329;
@@ -88,15 +89,20 @@
   padding:120px 0 0 0;
   /* scroll-behavior: smooth; */
 }
+/* html,
+body,
+.main{
+  scroll-behavior: smooth;
+} */
 body::-webkit-scrollbar{
   width:10px;
 }
 body::-webkit-scrollbar-track{
-  background-color:var(--black-10);
+  background-color:var(--orange-0);
 }
 body::-webkit-scrollbar-thumb{
   width:16px;
-  background-color:var(--black-50);
+  background-color:var(--black-40);
 }
 a{
   text-decoration: none;
