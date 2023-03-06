@@ -47,7 +47,7 @@ function Projects({ allProjects }) {
     });
     searchInputRef.current.value = "";
     axios
-      .post(`http://localhost:3000/api/projects/search`, {
+      .post(`https://localhost:3000/api/projects/search`, {
         header: `${projectName}`,
       })
       .then(async (res) => {
@@ -220,7 +220,7 @@ function Projects({ allProjects }) {
 export default Projects;
 
 export async function getServerSideProps() {
-  const projects = await fetch(`http://localhost:3000/api/projects`).then(
+  const projects = await fetch(`https://localhost:3000/api/projects`).then(
     (data) => {
       return data.json();
     }

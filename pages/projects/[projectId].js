@@ -306,7 +306,7 @@ export default ProjectId;
 export async function getServerSideProps(req, res) {
   const { projectId } = req.query;
   const oneProject = await fetch(
-    `http://localhost:3000/api/projects/${projectId}`
+    `https://localhost:3000/api/projects/${projectId}`
   ).then((data) => {
     return data.json();
   });

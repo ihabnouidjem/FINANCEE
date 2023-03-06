@@ -92,7 +92,7 @@ export default function Home(recommendedProjects) {
 }
 
 export async function getServerSideProps() {
-  const recommendedProjects = await fetch("http://localhost:3000/api").then(
+  const recommendedProjects = await fetch("https://localhost:3000/api").then(
     (data) => {
       return data.json();
     }
