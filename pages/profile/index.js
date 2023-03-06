@@ -447,28 +447,28 @@ export async function getServerSideProps(context) {
     };
   }
 
-  const categories = await fetch(`http://localhost:3000/api/categories`)
+  const categories = await fetch(`https://financee.onrender.com/api/categories`)
     .then((data) => {
       return data.json();
     })
     .catch((err) => console.log(err));
 
   if (session?.user.email === "ihab.financee@gmail.com") {
-    const websiteData = await fetch(`http://localhost:3000/api/admin`).then(
-      (data) => {
-        return data.json();
-      }
-    );
-    const allProjects = await fetch(`http://localhost:3000/api/projects`).then(
-      (data) => {
-        return data.json();
-      }
-    );
-    const global = await fetch(`http://localhost:3000/api/admin/global`).then(
-      (data) => {
-        return data.json();
-      }
-    );
+    const websiteData = await fetch(
+      `https://financee.onrender.com/api/admin`
+    ).then((data) => {
+      return data.json();
+    });
+    const allProjects = await fetch(
+      `https://financee.onrender.com/api/projects`
+    ).then((data) => {
+      return data.json();
+    });
+    const global = await fetch(
+      `https://financee.onrender.com/api/admin/global`
+    ).then((data) => {
+      return data.json();
+    });
     return {
       props: {
         admin: true,
@@ -487,7 +487,7 @@ export async function getServerSideProps(context) {
     profileImg: session.user.image,
   };
   const profile = await fetch(
-    `http://localhost:3000/api/profile/${session.user?.id}`,
+    `https://financee.onrender.com/api/profile/${session.user?.id}`,
 
     {
       method: "POST",

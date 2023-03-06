@@ -77,7 +77,7 @@ export default function App({ Component, pageProps }) {
   // functions
   const fetchMyProfile = async (UID) => {
     axios
-      .get(`https://localhost:3000/api/profile/${UID}`)
+      .get(`https://financee.onrender.com/api/profile/${UID}`)
       .then((res) => {
         setMyProfile(res.data);
       })
@@ -87,7 +87,7 @@ export default function App({ Component, pageProps }) {
   };
   const addPrflItem = async (uid, item, notification) => {
     await axios
-      .put(`https://localhost:3000/api/profile/${uid}`, { item: item })
+      .put(`https://financee.onrender.com/api/profile/${uid}`, { item: item })
       .then((res) => {
         setReload({
           status: true,
@@ -100,7 +100,7 @@ export default function App({ Component, pageProps }) {
     if (notification) {
       // console.log(notification);
       axios.post(
-        `https://localhost:3000/api/admin/notifications`,
+        `https://financee.onrender.com/api/admin/notifications`,
         notification
       );
     }
@@ -111,7 +111,7 @@ export default function App({ Component, pageProps }) {
     body.append("img", img);
     body.append("path", path);
     axios
-      .post(`https://localhost:3000/api/images/${uid}`, body, {
+      .post(`https://financee.onrender.com/api/images/${uid}`, body, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -128,14 +128,14 @@ export default function App({ Component, pageProps }) {
     if (notification) {
       // console.log(notification);
       axios.post(
-        `https://localhost:3000/api/admin/notifications`,
+        `https://financee.onrender.com/api/admin/notifications`,
         notification
       );
     }
   };
   const increaseField = async (pid, item) => {
     await axios
-      .put(`https://localhost:3000/api/projects/${pid}`, { item: item })
+      .put(`https://financee.onrender.com/api/projects/${pid}`, { item: item })
       .then((res) => {
         setReload({
           status: true,
@@ -147,12 +147,14 @@ export default function App({ Component, pageProps }) {
       .catch((err) => console.log(err));
     // if (notification) {
     //   console.log(notification, reload);
-    //   axios.post(`https://localhost:3000/api/admin/notifications`, notification);
+    //   axios.post(`https://financee.onrender.com/api/admin/notifications`, notification);
     // }
   };
   const deleteProject = (uid, item) => {
     axios
-      .delete(`https://localhost:3000/api/profile/${uid}`, { item: item })
+      .delete(`https://financee.onrender.com/api/profile/${uid}`, {
+        item: item,
+      })
       .then((res) => {
         setReload(true);
       })
@@ -160,7 +162,7 @@ export default function App({ Component, pageProps }) {
   };
   const updateProfile = (uid) => {
     axios
-      .get(`https://localhost:3000/api/profile/${uid}`)
+      .get(`https://financee.onrender.com/api/profile/${uid}`)
       .then((res) => {
         setMyProfile(res.data);
         setReload({
@@ -174,7 +176,7 @@ export default function App({ Component, pageProps }) {
   };
   useEffect(() => {
     axios
-      .get(`https://localhost:3000/api/categories`)
+      .get(`https://financee.onrender.com/api/categories`)
       .then((res) => {
         console.log(res.data);
         setMyCategories(res.data);

@@ -92,11 +92,11 @@ export default function Home(recommendedProjects) {
 }
 
 export async function getServerSideProps() {
-  const recommendedProjects = await fetch("https://localhost:3000/api").then(
-    (data) => {
-      return data.json();
-    }
-  );
+  const recommendedProjects = await fetch(
+    "https://financee.onrender.com/api"
+  ).then((data) => {
+    return data.json();
+  });
 
   return {
     props: {

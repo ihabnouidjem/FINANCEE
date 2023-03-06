@@ -47,7 +47,7 @@ function Projects({ allProjects }) {
     });
     searchInputRef.current.value = "";
     axios
-      .post(`https://localhost:3000/api/projects/search`, {
+      .post(`https://financee.onrender.com/api/projects/search`, {
         header: `${projectName}`,
       })
       .then(async (res) => {
@@ -220,11 +220,11 @@ function Projects({ allProjects }) {
 export default Projects;
 
 export async function getServerSideProps() {
-  const projects = await fetch(`https://localhost:3000/api/projects`).then(
-    (data) => {
-      return data.json();
-    }
-  );
+  const projects = await fetch(
+    `https://financee.onrender.com/api/projects`
+  ).then((data) => {
+    return data.json();
+  });
   const allProjects = await projects.filter((project) => {
     return project.status === "approved" || project.status === "recommended";
   });
