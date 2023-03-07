@@ -4,7 +4,10 @@ import React from "react";
 
 function Project({ id, header, description, raised, donators, projectImg }) {
   return (
-    <Link href={`/projects/${id}`} className="project">
+    <Link
+      href={`https://financee.onrender.com/projects/${id}`}
+      className="project"
+    >
       <div className="description"></div>
       <div className="project-img">
         <Image
