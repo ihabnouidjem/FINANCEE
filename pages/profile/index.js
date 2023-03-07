@@ -441,7 +441,7 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: `https://financee.onrender.com/api/auth/signin?callbackUrl=${"https://financee.onrender.com/profile"}`,
+        destination: `/api/auth/signin?callbackUrl=${"/profile"}`,
         peranent: false,
       },
     };
