@@ -4,7 +4,7 @@ import React from "react";
 
 function Project({ id, header, description, raised, donators, projectImg }) {
   return (
-    <Link href={`http://localhost:3000/projects/${id}`} className="project">
+    <Link href={`/projects/${id}`} className="project">
       <div className="description"></div>
       <div className="project-img">
         <Image

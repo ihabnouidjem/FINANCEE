@@ -229,28 +229,28 @@ function Profile({
         setMyProfile(profile);
         setUID(session.user.id);
 
-        if (profile?.status === "processing") {
-          setPrflStatusMSG({
-            header: "Profile processing",
-            msg: `please fill ${
-              profile?.header
-                ? "the description field"
-                : profile?.description
-                ? "the header field"
-                : "the header & description fields"
-            }`,
-            details:
-              "the project won't be displayed in the website if it doesn't have a header and a description, please enter them for the project to be approved",
-          });
-        }
-        if (profile?.status === "pending") {
-          setPrflStatusMSG({
-            header: "Project pending",
-            msg: `please ${"wait until your project gets approved"}`,
-            details:
-              "in pending mode we check your project, then approves it or decline it, an aproved project will eventually appear on the website",
-          });
-        }
+        // if (profile?.status === "processing") {
+        //   setPrflStatusMSG({
+        //     header: "Profile processing",
+        //     msg: `please fill ${
+        //       profile?.header
+        //         ? "the description field"
+        //         : profile?.description
+        //         ? "the header field"
+        //         : "the header & description fields"
+        //     }`,
+        //     details:
+        //       "the project won't be displayed in the website if it doesn't have a header and a description, please enter them for the project to be approved",
+        //   });
+        // }
+        // if (profile?.status === "pending") {
+        //   setPrflStatusMSG({
+        //     header: "Project pending",
+        //     msg: `please ${"wait until your project gets approved"}`,
+        //     details:
+        //       "in pending mode we check your project, then approves it or decline it, an aproved project will eventually appear on the website",
+        //   });
+        // }
       } else if (session && admin) {
         setSessionState(session);
       }
@@ -441,11 +441,12 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: `https://financee.onrender.com/api/auth/signin?callbackUrl=${process.env.PROFILE_URL}`,
+        destination: `/api/auth/signin?callbackUrl=${"https://financee.onrender.com/profile"}`,
         peranent: false,
       },
     };
   }
+  // process.env.PROFILE_URL
 
   const categories = await fetch(`https://financee.onrender.com/api/categories`)
     .then((data) => {
