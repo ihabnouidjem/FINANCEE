@@ -20,7 +20,7 @@ function AdminProject({
   const { adminMSG, setAdminMSG } = useContext(stateContext);
 
   const changeStatus = (uid, newStatus) => {
-    axios.post(`http://localhost:3000/api/admin/projects/${uid}`, {
+    axios.post(`https://financee.onrender.com/api/admin/projects/${uid}`, {
       newItems: newStatus,
     });
     // console.log(newStatus);

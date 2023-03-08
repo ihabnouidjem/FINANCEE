@@ -35,7 +35,7 @@ function AdminMessage() {
       if (adminMSG.type === "individual") {
         axios
           .post(
-            `http://localhost:3000/api/admin/projects/${adminMSG.destinationId}`,
+            `https://financee.onrender.com/api/admin/projects/${adminMSG.destinationId}`,
             { newItems: newMSG }
           )
           .then((res) => {
@@ -54,7 +54,7 @@ function AdminMessage() {
           });
       } else if (adminMSG.type === "mass") {
         axios
-          .post(`http://localhost:3000/api/admin`, {
+          .post(`https://financee.onrender.com/api/admin`, {
             newItems: newMassMSG,
           })
           .then((res) => {
