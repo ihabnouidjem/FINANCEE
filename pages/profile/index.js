@@ -454,10 +454,7 @@ export async function getServerSideProps(context) {
     })
     .catch((err) => console.log(err));
 
-  if (
-    session?.user.email === "ihab.financee@gmail.com" ||
-    session?.user.email === "saif.financee@gmail.com"
-  ) {
+  if (session?.user.email === "ihab.financee@gmail.com") {
     const websiteData = await fetch(
       `https://financee.onrender.com/api/admin`
     ).then((data) => {
