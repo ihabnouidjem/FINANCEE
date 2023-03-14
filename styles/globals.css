@@ -23,12 +23,16 @@
   --orange-4: #ffb72c;
   --orange-3: #e6d11f;
   --orange-2: #f5e829;
-  --orange-1: #e9fb7e;
+  /* --orange-1: #e9fb7e; */
+  --orange-1: #faffbd;
   --orange-0: rgb(233 251 126 / 30%);
   --blue-link: rgb(42, 96, 234);
+  --blue-link: #638efa;
   --blue-60: rgb(42 96 234 / 60%);
-  --green-footer-darker: #354329;
-  --green-footer: #475938;
+  /* --green-footer-darker: #354329; */
+  --green-footer-darker: #353d2f;
+  /* --green-footer: #475938; */
+  --green-footer: #536349;
   --green-msg: rgb(0, 180, 0);
   --green: #7bc023;
   --green-1: #78d933;
@@ -67,6 +71,9 @@
   background: -webkit-linear-gradient(0deg, var(--orange), var(--orange-2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.linear-gold{
+  background: -webkit-linear-gradient(60deg, var(--orange),var(--orange-2));
 }
 /* globals */
 .test-container{
@@ -265,6 +272,7 @@ textarea:focus{
 .reloading-icon-2{
   animation: secondReload linear infinite 300ms;
 }
+
 @keyframes firstReload {
   from{
     transform: rotate(0deg);
@@ -282,10 +290,10 @@ textarea:focus{
   }
 }
 .hover-text-btn{
-  transition:200ms;
+  transition:100ms;
 }
 .hover-text-btn:hover{
-  transform:scale(1.01);
+  transform:scale(1.04);
   box-shadow:0 0 8px var(--black-20);
   /* border:1px solid var(--black-20); */
 }

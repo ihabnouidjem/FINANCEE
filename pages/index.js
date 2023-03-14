@@ -14,7 +14,6 @@ import { stateContext } from "./_app";
 export const homeContext = createContext();
 
 export default function Home(recommendedProjects) {
-  // const homeProjects = recommendedProjects;
   const { data: session, status } = useSession();
   const [recommended, setRecommended] = useState([]);
   const [currentBanner, setCurrentBanner] = useState({});
@@ -67,18 +66,11 @@ export default function Home(recommendedProjects) {
         <meta name="description" content="FINANCEE home page" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      {/* <div className="test-container">
-        <p className="p white">{`${navStatus.status}`}</p>
-        <p className="p white">{navStatus.horScroll}</p>
-        <p className="p white">{navStatus.prevHorScroll}</p>
-        <p className="p white">{navStatus.distScrolled}</p>
-      </div> */}
       <main className="main">
         <homeContext.Provider
           value={{ recommended, currentBanner, setCurrentBanner }}
         >
           <Banner />
-
           {recommended.length >= 4 && <HomeProjects />}
           <Campaigns />
           <Payment />
@@ -93,7 +85,11 @@ export default function Home(recommendedProjects) {
 
 export async function getServerSideProps() {
   const recommendedProjects = await fetch(
-    "https://financee.onrender.com/api"
+    `${
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.NODE_ENV === "production" && "http://localhost:3000"
+    }/api`
   ).then((data) => {
     return data.json();
   });

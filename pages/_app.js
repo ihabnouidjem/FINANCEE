@@ -16,9 +16,12 @@ import "@/styles/profile.css";
 import "@/styles/admin.css";
 import "@/styles/about.css";
 import "@/styles/nav.css";
+import "@/styles/newProject.css";
+import "@/styles/profileProject.css";
 import Footer from "@/components/Footer";
 import { useState, useEffect, createContext } from "react";
 import Nav from "@/components/nav";
+import ProfileNav from "@/components/ProfileNav";
 
 export const stateContext = createContext();
 
@@ -51,6 +54,7 @@ export default function App({ Component, pageProps }) {
     msg: "",
     details: "",
   });
+  const [admin, setAdmin] = useState(true);
   const [myCategories, setMyCategories] = useState([]);
   const [myProfile, setMyProfile] = useState({});
   const [categories, setCategories] = useState([]);
@@ -77,7 +81,13 @@ export default function App({ Component, pageProps }) {
   // functions
   const fetchMyProfile = async (UID) => {
     axios
-      .get(`https://financee.onrender.com/api/profile/${UID}`)
+      .get(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/profile/${UID}`
+      )
       .then((res) => {
         setMyProfile(res.data);
       })
@@ -87,7 +97,14 @@ export default function App({ Component, pageProps }) {
   };
   const addPrflItem = async (uid, item, notification) => {
     await axios
-      .put(`https://financee.onrender.com/api/profile/${uid}`, { item: item })
+      .put(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/profile/${uid}`,
+        { item: item }
+      )
       .then((res) => {
         setReload({
           status: true,
@@ -98,9 +115,42 @@ export default function App({ Component, pageProps }) {
       })
       .catch((err) => console.log(err));
     if (notification) {
-      // console.log(notification);
       axios.post(
-        `https://financee.onrender.com/api/admin/notifications`,
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/admin/notifications`,
+        notification
+      );
+    }
+  };
+  const addPrjctItem = async (id, item, notification) => {
+    await axios
+      .put(
+        `${
+          process.env.NODE_ENV == "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV == "production" && "http://localhost:3000"
+        }/api/projects/test/${id}`,
+        { item: item }
+      )
+      .then(($res) => {
+        setReload({
+          status: true,
+          function: "updateProject",
+          id: `${id}`,
+          path: "",
+        });
+      })
+      .catch((err) => console.log(err));
+    if (notification) {
+      axios.post(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/admin/notifications`,
         notification
       );
     }
@@ -111,11 +161,19 @@ export default function App({ Component, pageProps }) {
     body.append("img", img);
     body.append("path", path);
     axios
-      .post(`https://financee.onrender.com/api/images/${uid}`, body, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .post(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/images/${uid}`,
+        body,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
       .then((res) => {
         setReload({
           status: true,
@@ -128,14 +186,25 @@ export default function App({ Component, pageProps }) {
     if (notification) {
       // console.log(notification);
       axios.post(
-        `https://financee.onrender.com/api/admin/notifications`,
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/admin/notifications`,
         notification
       );
     }
   };
   const increaseField = async (pid, item) => {
     await axios
-      .put(`https://financee.onrender.com/api/projects/${pid}`, { item: item })
+      .put(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/projects/test/${pid}`,
+        { item: item }
+      )
       .then((res) => {
         setReload({
           status: true,
@@ -147,14 +216,26 @@ export default function App({ Component, pageProps }) {
       .catch((err) => console.log(err));
     // if (notification) {
     //   console.log(notification, reload);
-    //   axios.post(`https://financee.onrender.com/api/admin/notifications`, notification);
+    //   axios.post(`${
+    //   process.env.NODE_ENV === "development"
+    //     ? "http://localhost:3000"
+    //     : process.env.NODE_ENV === "production" &&
+    //       "http://localhost:3000"
+    // }/api/admin/notifications`, notification);
     // }
   };
   const deleteProject = (uid, item) => {
     axios
-      .delete(`https://financee.onrender.com/api/profile/${uid}`, {
-        item: item,
-      })
+      .delete(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/profile/${uid}`,
+        {
+          item: item,
+        }
+      )
       .then((res) => {
         setReload(true);
       })
@@ -162,7 +243,13 @@ export default function App({ Component, pageProps }) {
   };
   const updateProfile = (uid) => {
     axios
-      .get(`https://financee.onrender.com/api/profile/${uid}`)
+      .get(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/profile/${uid}`
+      )
       .then((res) => {
         setMyProfile(res.data);
         setReload({
@@ -176,7 +263,13 @@ export default function App({ Component, pageProps }) {
   };
   useEffect(() => {
     axios
-      .get(`https://financee.onrender.com/api/categories`)
+      .get(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/categories`
+      )
       .then((res) => {
         console.log(res.data);
         setMyCategories(res.data);
@@ -189,8 +282,8 @@ export default function App({ Component, pageProps }) {
     if (reload.status) {
       if (reload.function === "updateProfile") {
         updateProfile(UID);
+        setReload(false);
       }
-      setReload(false);
     }
   }, [reload, UID]);
   return (
@@ -198,6 +291,8 @@ export default function App({ Component, pageProps }) {
       <SessionProvider session={pageProps.session}>
         <stateContext.Provider
           value={{
+            admin,
+            setAdmin,
             reload,
             nav,
             setNav,
@@ -226,7 +321,7 @@ export default function App({ Component, pageProps }) {
             prflPaypal,
             myProfile,
             categories,
-
+            setReload,
             setCategories,
             setNavStatus,
             setProjects,
@@ -251,6 +346,7 @@ export default function App({ Component, pageProps }) {
             setPrflPaypal,
             addPrflItem,
             addImage,
+            addPrjctItem,
             increaseField,
             deleteProject,
             updateProfile,

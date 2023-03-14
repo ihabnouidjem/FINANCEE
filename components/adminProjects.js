@@ -9,8 +9,8 @@ function AdminProjects({ filteredProjects }) {
         filteredProjects.map(
           ({
             _id,
-            id,
-            header,
+            uid,
+            projectName,
             status,
             description,
             likes,
@@ -21,8 +21,9 @@ function AdminProjects({ filteredProjects }) {
             return (
               <AdminProject
                 key={_id}
-                id={id}
-                header={header}
+                _id={_id}
+                uid={uid}
+                projectName={projectName}
                 status={status}
                 description={description}
                 likes={likes}

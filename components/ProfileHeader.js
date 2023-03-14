@@ -1,30 +1,40 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsCheck } from "react-icons/bs";
 import { AiTwotoneEdit, AiOutlineDelete } from "react-icons/ai";
 import { stateContext } from "@/pages/_app";
+import { projectContext } from "@/pages/profile/[projectId]";
 
-function ProfileHeader({
-  newHeader,
-  setNewHeader,
-  prflHeader,
-  modifyItem,
-  setModifyItem,
-  session,
-  addPrflItem,
-  updateProfile,
-}) {
-  const { myProfile } = useContext(stateContext);
+function ProfileHeader(
+  {
+    // newHeader,
+    // setNewHeader,
+    // prflHeader,
+    // modifyItem,
+    // setModifyItem,
+    // session,
+    // addPrflItem,
+    // updateProfile,
+  }
+) {
+  const { projectState } = useContext(projectContext);
+  const { addPrjctItem } = useContext(stateContext);
+  const [newName, setNewName] = useState({
+    status: false,
+    state: "empty",
+    name: { projectName: "" },
+  });
+
   return (
     <div className="profile-forms-container">
-      {prflHeader && !modifyItem.header ? (
+      {projectState?.projectName && !newName.status ? (
         <>
           <div className="profile-text-container">
-            <h4 className="h4 black-90 text-center">{`${prflHeader}`}</h4>
+            <h4 className="h4 black-90 text-center">{`${projectState.projectName}`}</h4>
           </div>
           <div className="profile-form-buttons">
             <button
               className="profile-form-button"
-              onClick={() => setModifyItem({ ...modifyItem, header: true })}
+              onClick={() => setNewName({ ...newName, status: true })}
             >
               <i className="icon-24 black-90">
                 <AiTwotoneEdit />
@@ -49,32 +59,44 @@ function ProfileHeader({
         <div className="profile-form">
           <input
             onChange={(e) => {
-              setNewHeader({ header: `${e.target.value}` });
+              if (e.target.value != "") {
+                setNewName({
+                  ...newName,
+                  state: "filled",
+                  name: { projectName: `${e.target.value}` },
+                });
+              } else {
+                setNewName({
+                  ...newName,
+                  state: "empty",
+                  name: { projectName: `${e.target.value}` },
+                });
+              }
             }}
             className={
-              !prflHeader
+              projectState?.projectName
                 ? "profile-form-input empty-fieled"
                 : "profile-form-input"
             }
-            placeholder={`${"header ..."}`}
+            placeholder={`${"project name ..."}`}
           />
           <div className="profile-form-buttons">
             <button
               onClick={() => {
-                setModifyItem({ ...modifyItem, header: false });
-                if (newHeader) {
-                  addPrflItem(session?.user.id, newHeader, {
-                    user: session.user.name,
-                    id: session.user.id,
-                    subject: "MODIFIED",
-                    msg: `${
-                      myProfile.header ? myProfile.header : myProfile.id
-                    } modified there header`,
-                    item: "header",
+                if (newName.status && newName.state === "filled") {
+                  addPrjctItem(projectState._id, newName.name);
+                  setNewName({
+                    status: false,
+                    state: "empty",
+                    projectName: { projectName: "" },
+                  });
+                } else {
+                  setNewName({
+                    status: false,
+                    state: "empty",
+                    projectName: { projectName: "" },
                   });
                 }
-                setNewHeader();
-                updateProfile(session?.user.id);
               }}
               className="profile-form-button"
             >

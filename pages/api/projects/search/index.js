@@ -6,7 +6,7 @@ export default async function Handler(req, res) {
   if (req.method === "GET" || req.method === "POST") {
     const projectsFilter = await req.body;
     const allProjects = await db
-      .collection("Profiles")
+      .collection("Projects")
       .find(projectsFilter)
       .toArray();
     res.status(200).json(allProjects);

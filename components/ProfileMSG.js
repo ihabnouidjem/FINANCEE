@@ -1,11 +1,12 @@
 import { profileContext } from "@/pages/profile";
 import { stateContext } from "@/pages/_app";
+import { useSession } from "next-auth/react";
 import React, { useContext } from "react";
 import { BsX } from "react-icons/bs";
 
-function ProfileMSG({ message, type }) {
-  const { myProfile, addPrflItem } = useContext(stateContext);
-  const { session } = useContext(profileContext);
+function ProfileMSG({ message, type, pid }) {
+  const { data: session, status } = useSession();
+  const { myProfile, addPrflItem, addPrjctItem } = useContext(stateContext);
   return (
     <div className="profileMSG">
       <div className={`profileMSG-subject ${type}`}>
@@ -27,7 +28,7 @@ function ProfileMSG({ message, type }) {
                 }
               : message.type === "status" &&
                 (() => {
-                  addPrflItem(session.user?.id, {
+                  addPrjctItem(pid, {
                     statusMSG: { ...message, status: false },
                   });
                 })

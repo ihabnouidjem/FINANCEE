@@ -6,7 +6,14 @@ import { BsX } from "react-icons/bs";
 function AdminNotification({ _id, user, id, item, subject, msg }) {
   const deleteNotification = (nid) => {
     axios
-      .delete(`https://financee.onrender.com/api/admin/notifications/${nid}`)
+      .delete(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee.onrender.com"
+        }/api/admin/notifications/${nid}`
+      )
       .then((res) => console.log(res));
   };
 

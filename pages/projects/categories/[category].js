@@ -76,8 +76,8 @@ function CategoryProjects({ categoryProjects, category }) {
           ? projectsByCategory.map(
               ({
                 _id,
-                id,
-                header,
+                uid,
+                projectName,
                 description,
                 raised,
                 donators,
@@ -86,8 +86,9 @@ function CategoryProjects({ categoryProjects, category }) {
                 return (
                   <Project
                     key={_id}
-                    id={id}
-                    header={header}
+                    _id={_id}
+                    uid={uid}
+                    projectName={projectName}
                     description={description}
                     raised={raised}
                     donators={donators}
@@ -111,7 +112,11 @@ export default CategoryProjects;
 export async function getServerSideProps(req, res) {
   const { category } = await req.query;
   const catProjects = await fetch(
-    `https://financee.onrender.com/api/projects/categories/${category}`
+    `${
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.NODE_ENV === "production" && "http://localhost:3000"
+    }/api/projects/categories/${category}`
   ).then((data) => {
     return data.json();
   });

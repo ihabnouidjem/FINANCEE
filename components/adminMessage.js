@@ -35,7 +35,12 @@ function AdminMessage() {
       if (adminMSG.type === "individual") {
         axios
           .post(
-            `https://financee.onrender.com/api/admin/projects/${adminMSG.destinationId}`,
+            `${
+              process.env.NODE_ENV === "development"
+                ? "http://localhost:3000"
+                : process.env.NODE_ENV === "production" &&
+                  "https://financee.onrender.com"
+            }/api/admin/profiles/${adminMSG.destinationId}`,
             { newItems: newMSG }
           )
           .then((res) => {
@@ -54,9 +59,17 @@ function AdminMessage() {
           });
       } else if (adminMSG.type === "mass") {
         axios
-          .post(`https://financee.onrender.com/api/admin`, {
-            newItems: newMassMSG,
-          })
+          .post(
+            `${
+              process.env.NODE_ENV === "development"
+                ? "http://localhost:3000"
+                : process.env.NODE_ENV === "production" &&
+                  "https://financee.onrender.com"
+            }/api/admin/profiles`,
+            {
+              newItems: newMassMSG,
+            }
+          )
           .then((res) => {
             setAdminMSG({
               status: false,
@@ -86,8 +99,8 @@ function AdminMessage() {
         <div className="admin-message-form">
           <h6 className="h6 black-70">
             {adminMSG.destinationId !== ""
-              ? `DEST ID : ${adminMSG.destinationId}`
-              : "destination id"}
+              ? `DEST UID : ${adminMSG.destinationId}`
+              : "destination uid"}
           </h6>
           <h6 className="h6 black-70">
             {adminMSG.destinationName !== ""

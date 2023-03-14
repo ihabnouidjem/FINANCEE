@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getSession, useSession, signIn } from "next-auth/react";
+import {
+  getSession,
+  // getServerSession,
+  useSession,
+  signIn,
+} from "next-auth/react";
 import Image from "next/image";
 import { BsEye, BsFillSuitHeartFill } from "react-icons/bs";
 import { GiMoneyStack } from "react-icons/gi";
@@ -10,7 +15,7 @@ import ProfileSocial from "@/components/ProfileSocial";
 import ProfileElement from "@/components/ProfileElement";
 import ProfileHeader from "@/components/ProfileHeader";
 import AdminNotification from "@/components/adminNotification";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import AdminProjects from "@/components/adminProjects";
 import AdminMessage from "@/components/adminMessage";
 import AdminGlobal from "@/components/adminGlobal";
@@ -21,6 +26,7 @@ export const profileContext = createContext();
 
 function Profile({
   profile,
+  myProjects,
   admin,
   websiteData,
   allProjects,
@@ -30,27 +36,12 @@ function Profile({
   // component starts here---------------------------------------
   const {
     reload,
+    setReload,
     adminMSG,
     prflStatusMSG,
-    prflLikes,
-    prflRaised,
-    prflDonators,
-    prflViews,
-    prflHeader,
-    prflDescription,
-    prflFunds,
-    prflFacebook,
-    prflTwitter,
-    prflYoutube,
-    prflInstagram,
-    prflPhone,
-    prflEmail,
-    prflCcp,
-    prflKey,
-    prflPaypal,
+    setAdmin,
     myProfile,
     setAdminMSG,
-    setPrflStatusMSG,
     setPrflLikes,
     setPrflRaised,
     setPrflDonators,
@@ -68,7 +59,6 @@ function Profile({
     setPrflKey,
     setPrflPaypal,
     addPrflItem,
-    deleteProject,
     updateProfile,
     setMyProfile,
     setUID,
@@ -78,7 +68,7 @@ function Profile({
   const [currScroll, setCurrScroll] = useState(0);
   const [currScrollDist, setCurrScrollDist] = useState(0);
   const [currNavItem, setCurrNavItem] = useState("notifications");
-  const [projects, setProjects] = useState([]);
+  const [adminProjects, setAdminProjects] = useState([]);
   const [navItems, setNavItems] = useState([
     "notifications",
     "global",
@@ -185,23 +175,44 @@ function Profile({
   }, [currNavItem]);
 
   useEffect(() => {
-    setProjects(allProjects);
+    setAdminProjects(allProjects);
+  }, [allProjects]);
+  useEffect(() => {
     setFilteredProjects({
-      all: allProjects,
-      recommended: allProjects?.filter(
+      all: adminProjects,
+      recommended: adminProjects?.filter(
         (project) => project.status === "recommended"
       ),
-      approved: allProjects?.filter((project) => project.status === "approved"),
-      pending: allProjects?.filter((project) => project.status === "pending"),
-      processing: allProjects?.filter(
+      approved: adminProjects?.filter(
+        (project) => project.status === "approved"
+      ),
+      pending: adminProjects?.filter((project) => project.status === "pending"),
+      processing: adminProjects?.filter(
         (project) => project.status === "processing"
       ),
-      declined: allProjects?.filter((project) => project.status === "declined"),
-      blocked: allProjects?.filter((project) => project.status === "blocked"),
+      declined: adminProjects?.filter(
+        (project) => project.status === "declined"
+      ),
+      blocked: adminProjects?.filter((project) => project.status === "blocked"),
     });
-  }, [allProjects]);
+  }, [adminProjects]);
 
   useEffect(() => {
+    if (reload.status && reload.function === "fetchAdminProjects") {
+      axios.get(`http://localhost:3000/api/projects/test`).then((res) => {
+        setAdminProjects(res.data);
+        setReload({
+          status: false,
+          function: "",
+          uid: "",
+          path: "",
+        });
+      });
+    }
+  }, [reload]);
+
+  useEffect(() => {
+    setAdmin(admin);
     const secureProfile = async () => {
       const session = await getSession();
       if (!session) {
@@ -225,38 +236,14 @@ function Profile({
         setPrflCcp(profile?.ccp);
         setPrflKey(profile?.key);
         setPrflPaypal(profile?.paypal);
-
         setMyProfile(profile);
         setUID(session.user.id);
-
-        // if (profile?.status === "processing") {
-        //   setPrflStatusMSG({
-        //     header: "Profile processing",
-        //     msg: `please fill ${
-        //       profile?.header
-        //         ? "the description field"
-        //         : profile?.description
-        //         ? "the header field"
-        //         : "the header & description fields"
-        //     }`,
-        //     details:
-        //       "the project won't be displayed in the website if it doesn't have a header and a description, please enter them for the project to be approved",
-        //   });
-        // }
-        // if (profile?.status === "pending") {
-        //   setPrflStatusMSG({
-        //     header: "Project pending",
-        //     msg: `please ${"wait until your project gets approved"}`,
-        //     details:
-        //       "in pending mode we check your project, then approves it or decline it, an aproved project will eventually appear on the website",
-        //   });
-        // }
       } else if (session && admin) {
         setSessionState(session);
       }
     };
     secureProfile();
-  }, [profile]);
+  }, [profile, admin, session]);
 
   // return-------------------------------------------------------------------------------------------------------------
   {
@@ -273,7 +260,7 @@ function Profile({
               />
             </Head>
             <div className="profile-user">
-              <div className="profile-user-img">
+              {/* <div className="profile-user-img">
                 {sessionState && (
                   <Image
                     src={sessionState?.user.image}
@@ -283,7 +270,7 @@ function Profile({
                     height={100}
                   ></Image>
                 )}
-              </div>
+              </div> */}
               <h5 className="h5 black-90">{`${sessionState?.user.name}`}</h5>
             </div>
             <div className="admin-nav-header">
@@ -310,6 +297,12 @@ function Profile({
               <div className="admin-notifications">
                 <div className="admin-item-header">
                   <h5 className="h5 black-90">Notifications</h5>
+                  {websiteData && (
+                    <h5 className="h5 blue-link admin-item-counter">
+                      {websiteData.notifications.length}
+                    </h5>
+                  )}
+
                   <button className="admin-item-button hover-text-btn">
                     <h6 className="h6 black-90">clear all</h6>
                   </button>
@@ -338,6 +331,11 @@ function Profile({
               <div className="admin-projects">
                 <div className="admin-item-header">
                   <h5 className="h5 black-90">PROJECTS | processing</h5>
+                  {filteredProjects && (
+                    <h5 className="h5 blue-link admin-item-counter">
+                      {filteredProjects.processing.length}
+                    </h5>
+                  )}
                 </div>
                 <AdminProjects filteredProjects={filteredProjects.processing} />
               </div>
@@ -345,6 +343,11 @@ function Profile({
               <div className="admin-projects">
                 <div className="admin-item-header">
                   <h5 className="h5 black-90">PROJECTS | pending</h5>
+                  {filteredProjects && (
+                    <h5 className="h5 blue-link admin-item-counter">
+                      {filteredProjects.pending.length}
+                    </h5>
+                  )}
                 </div>
                 <AdminProjects filteredProjects={filteredProjects.pending} />
               </div>
@@ -352,6 +355,11 @@ function Profile({
               <div className="admin-projects">
                 <div className="admin-item-header">
                   <h5 className="h5 black-90">PROJECTS | all</h5>
+                  {filteredProjects && (
+                    <h5 className="h5 blue-link admin-item-counter">
+                      {filteredProjects.all.length}
+                    </h5>
+                  )}
                 </div>
 
                 <AdminProjects filteredProjects={filteredProjects.all} />
@@ -360,6 +368,11 @@ function Profile({
               <div className="admin-projects">
                 <div className="admin-item-header">
                   <h5 className="h5 black-90">PROJECTS | declined</h5>
+                  {filteredProjects && (
+                    <h5 className="h5 blue-link admin-item-counter">
+                      {filteredProjects.declined.length}
+                    </h5>
+                  )}
                 </div>
 
                 <AdminProjects filteredProjects={filteredProjects.declined} />
@@ -368,15 +381,38 @@ function Profile({
               <div className="admin-projects">
                 <div className="admin-item-header">
                   <h5 className="h5 black-90">PROJECTS | blocked</h5>
+                  {filteredProjects && (
+                    <h5 className="h5 blue-link admin-item-counter">
+                      {filteredProjects.blocked.length}
+                    </h5>
+                  )}
                 </div>
 
                 <AdminProjects filteredProjects={filteredProjects.blocked} />
+              </div>
+            ) : currNavItem === "approved" ? (
+              <div className="admin-projects">
+                <div className="admin-item-header">
+                  <h5 className="h5 black-90">PROJECTS | approved</h5>
+                  {filteredProjects && (
+                    <h5 className="h5 blue-link admin-item-counter">
+                      {filteredProjects.approved.length}
+                    </h5>
+                  )}
+                </div>
+
+                <AdminProjects filteredProjects={filteredProjects.approved} />
               </div>
             ) : (
               currNavItem === "recommended" && (
                 <div className="admin-projects">
                   <div className="admin-item-header">
                     <h5 className="h5 black-90">PROJECTS | recommended</h5>
+                    {filteredProjects && (
+                      <h5 className="h5 blue-link admin-item-counter">
+                        {filteredProjects.recommended.length}
+                      </h5>
+                    )}
                   </div>
                   <AdminProjects
                     filteredProjects={filteredProjects.recommended}
@@ -393,6 +429,7 @@ function Profile({
           value={{
             sessionState,
             myProfile,
+            myProjects,
             categories,
             profile,
             prflStatusMSG,
@@ -425,6 +462,7 @@ function Profile({
             session,
             addPrflItem,
             updateProfile,
+            // addNewProject,
           }}
         >
           {myProfile && <ProfileUser />}
@@ -441,32 +479,52 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: `/api/auth/signin?callbackUrl=${"/profile"}`,
+        destination: `/api/auth/signin?callbackUrl=${`/profile`}`,
         peranent: false,
       },
     };
   }
-  // process.env.PROFILE_URL
 
-  const categories = await fetch(`https://financee.onrender.com/api/categories`)
+  const categories = await fetch(
+    `${
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.NODE_ENV === "production" && "http://localhost:3000"
+    }/api/categories`
+  )
     .then((data) => {
       return data.json();
     })
     .catch((err) => console.log(err));
 
-  if (session?.user.email === "ihab.financee@gmail.com") {
+  if (
+    session?.user.email === "ihab.financee@gmail.com" ||
+    session?.user.email === "saif.financee@gmail.com"
+  ) {
     const websiteData = await fetch(
-      `https://financee.onrender.com/api/admin`
+      `${
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : process.env.NODE_ENV === "production" && "http://localhost:3000"
+      }/api/admin`
     ).then((data) => {
       return data.json();
     });
     const allProjects = await fetch(
-      `https://financee.onrender.com/api/projects`
+      `${
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : process.env.NODE_ENV === "production" && "http://localhost:3000"
+      }/api/projects/test`
     ).then((data) => {
       return data.json();
     });
     const global = await fetch(
-      `https://financee.onrender.com/api/admin/global`
+      `${
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000"
+          : process.env.NODE_ENV === "production" && "http://localhost:3000"
+      }/api/admin/global`
     ).then((data) => {
       return data.json();
     });
@@ -488,7 +546,11 @@ export async function getServerSideProps(context) {
     profileImg: session.user.image,
   };
   const profile = await fetch(
-    `https://financee.onrender.com/api/profile/${session.user?.id}`,
+    `${
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.NODE_ENV === "production" && "http://localhost:3000"
+    }/api/profile/${session.user?.id}`,
 
     {
       method: "POST",
@@ -500,10 +562,17 @@ export async function getServerSideProps(context) {
   ).then((data) => {
     return data.json();
   });
+  if (profile.projects) {
+    var myProjects = profile.projects;
+  } else {
+    var myProjects = [];
+  }
+
   return {
     props: {
       admin: false,
       profile,
+      myProjects: myProjects,
       categories,
     },
   };

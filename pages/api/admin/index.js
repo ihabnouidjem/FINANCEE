@@ -19,7 +19,6 @@ export default async function Handler(req, res) {
   if (req.method === "POST") {
     const msg = { msg: "profile updated" };
     const items = await req.body.newItems;
-    console.log(items);
     const updateProfile = await db.collection("Profiles").updateMany(
       {},
       {

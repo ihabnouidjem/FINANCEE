@@ -1,41 +1,46 @@
 import { profileContext } from "@/pages/profile";
+import { projectContext } from "@/pages/profile/[projectId]";
 import { stateContext } from "@/pages/_app";
 import React, { useContext, useEffect, useState } from "react";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { BsCheck } from "react-icons/bs";
 import { IoAddOutline } from "react-icons/io5";
 
-function ProfileCategory({ myProfile }) {
+function ProfileCategory(
+  {
+    // myProfile
+  }
+) {
   const [changeCategory, setChangeCategory] = useState({
     status: false,
     newCategory: { category: "" },
   });
   const [filteredCategories, setFilteredCategories] = useState([]);
 
-  const { session, categories } = useContext(profileContext);
-  const { addPrflItem } = useContext(stateContext);
+  const { session, projectState } = useContext(projectContext);
+  const { addPrjctItem, myCategories } = useContext(stateContext);
 
   useEffect(() => {
-    if (myProfile.category) {
+    if (projectState.category) {
       setFilteredCategories(
-        categories.filter((category) => {
-          return category.category !== myProfile.category;
+        myCategories.filter((category) => {
+          return category.category !== projectState.category;
         })
       );
     } else {
-      setFilteredCategories(categories);
+      setFilteredCategories(myCategories);
     }
-  }, [myProfile]);
+  }, [projectState, myCategories]);
 
   return (
     <div className="profileCategory">
       <div className="profileCategory-header">
-        {myProfile.category && !changeCategory.status ? (
-          <p className="p black-50">{`my category : ${myProfile.category}`}</p>
+        {projectState.category && !changeCategory.status ? (
+          <p className="p black-50">{`my category : ${projectState.category}`}</p>
         ) : (
           <p className="p black-50">choose category :</p>
         )}
-        {myProfile.category && !changeCategory.status ? (
+        {projectState.category && !changeCategory.status ? (
           <div
             className="text-icon"
             onClick={() => {
@@ -51,13 +56,13 @@ function ProfileCategory({ myProfile }) {
           <div
             className="text-icon"
             onClick={() => {
-              addPrflItem(session.user.id, changeCategory.newCategory, {
+              addPrjctItem(projectState._id, changeCategory.newCategory, {
                 user: session.user.name,
                 id: session.user.id,
                 subject: "ADDED",
                 msg: `${
-                  myProfile.header ? myProfile.header : myProfile.id
-                } added a category`,
+                  session.user.name ? session.user.name : session.user.id
+                } added a category to ${projectState.projectName}`,
                 item: "category",
               });
               setChangeCategory({
@@ -77,13 +82,13 @@ function ProfileCategory({ myProfile }) {
               className="text-icon"
               onClick={() => {
                 if (changeCategory.status) {
-                  addPrflItem(session.user.id, changeCategory.newCategory, {
+                  addPrjctItem(projectState._id, changeCategory.newCategory, {
                     user: session.user.name,
                     id: session.user.id,
                     subject: "MODIFIED",
                     msg: `${
-                      myProfile.header ? myProfile.header : myProfile.id
-                    } modified there category`,
+                      session.user.name ? session.user.name : session.user.id
+                    } modified ${projectState.projectName}'s category`,
                     item: "category",
                   });
                   setChangeCategory({
@@ -101,7 +106,7 @@ function ProfileCategory({ myProfile }) {
           )
         )}
       </div>
-      {(changeCategory.status || !myProfile.category) && (
+      {(changeCategory.status || !projectState.category) && (
         <div className="profileCategory-categories">
           {filteredCategories.map((category) => {
             if (category.status) {

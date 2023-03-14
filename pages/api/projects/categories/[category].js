@@ -6,7 +6,7 @@ export default async function Handler(req, res) {
   const { category } = await req.query;
   if (req.method === "GET" || req.method === "POST") {
     const categoryProjects = await db
-      .collection("Profiles")
+      .collection("Projects")
       .find({ category: `${category}` })
       .toArray();
     res.status(200).json(categoryProjects);

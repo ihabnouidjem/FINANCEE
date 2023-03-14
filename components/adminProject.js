@@ -7,8 +7,9 @@ import axios from "axios";
 import { stateContext } from "@/pages/_app";
 
 function AdminProject({
-  id,
-  header,
+  _id,
+  uid,
+  projectName,
   status,
   description,
   likes,
@@ -17,12 +18,17 @@ function AdminProject({
   donations,
 }) {
   // component --------------------------------------------------------------------------------------
-  const { adminMSG, setAdminMSG } = useContext(stateContext);
 
-  const changeStatus = (uid, newStatus) => {
-    axios.post(`https://financee.onrender.com/api/admin/projects/${uid}`, {
-      newItems: newStatus,
-    });
+  const { reload, setReload, adminMSG, setAdminMSG } = useContext(stateContext);
+
+  const changeStatus = (_id, newStatus) => {
+    axios
+      .post(`http://localhost:3000/api/admin/projects/${_id}`, {
+        newItems: newStatus,
+      })
+      .then((res) => {
+        setReload({ ...reload, status: true, function: "fetchAdminProjects" });
+      });
     // console.log(newStatus);
   };
 
@@ -32,7 +38,7 @@ function AdminProject({
         <div className="admin-project-p">
           <p className="p black-50">
             <span className="h6 black-70">{`Start-up : `}</span>
-            {`${header}`}
+            {`${projectName}`}
           </p>
         </div>
         <div className="admin-project-p">
@@ -80,8 +86,8 @@ function AdminProject({
               ...adminMSG,
               status: true,
               type: "individual",
-              destinationId: id,
-              destinationName: header,
+              destinationId: uid,
+              destinationName: projectName,
             });
           }}
         >
@@ -93,7 +99,7 @@ function AdminProject({
         <button
           className="text-icon"
           onClick={() => {
-            changeStatus(id, { status: "recommended", statusChanged: true });
+            changeStatus(_id, { status: "recommended", statusChanged: true });
           }}
         >
           <i
@@ -118,7 +124,7 @@ function AdminProject({
         <button
           className="text-icon"
           onClick={() => {
-            changeStatus(id, { status: "approved", statusChanged: true });
+            changeStatus(_id, { status: "approved", statusChanged: true });
           }}
         >
           <i
@@ -139,7 +145,7 @@ function AdminProject({
         <button
           className="text-icon"
           onClick={() => {
-            changeStatus(id, { status: "declined", statusChanged: true });
+            changeStatus(_id, { status: "declined", statusChanged: true });
           }}
         >
           <i
@@ -160,7 +166,7 @@ function AdminProject({
         <button
           className="text-icon"
           onClick={() => {
-            changeStatus(id, { status: "blocked", statusChanged: true });
+            changeStatus(_id, { status: "blocked", statusChanged: true });
           }}
         >
           <i

@@ -7,11 +7,14 @@ import { GoPerson } from "react-icons/go";
 import { HiOutlineBars2 } from "react-icons/hi2";
 import { IoLogOutOutline } from "react-icons/io5";
 import { stateContext } from "@/pages/_app";
+import Image from "next/image";
+import ProfileNav from "./ProfileNav";
 
 function Header() {
   const { data: session, token, status } = useSession();
 
-  const { myCategories, nav, setNav, navStatus } = useContext(stateContext);
+  const { myProfile, myCategories, nav, setNav, navStatus } =
+    useContext(stateContext);
 
   const [categories, setCategories] = useState([
     "science & technology",
@@ -20,33 +23,72 @@ function Header() {
     "sports",
     "education",
   ]);
+  const [profileNav, setProfileNav] = useState({ status: false });
   return (
     <div className="header-container">
       <div className="header">
-        <p className="h4 linear-financee">FINANCEE</p>
+        <button
+          className="header-menu"
+          onClick={
+            () => {
+              nav.status
+                ? setNav({ ...nav, state: "navOut" })
+                : setNav({ status: true, state: "navIn" });
+            }
+            //
+          }
+        >
+          <i className="icon-32">{nav.status ? <BsX /> : <HiOutlineBars2 />}</i>
+        </button>
+        <Link href={"/"}>
+          {" "}
+          <h4 className="h4 linear-financee">FINANCEE</h4>
+        </Link>
+
         <div className="flex-row">
           <ul className="header-nav">
-            <Link href="/" className="header-nav-item black-70">
+            <Link href="/" className="header-nav-item black-80">
               <i className="btn-32">
                 <BsHouse />
               </i>
               <h6 className="h6">Home</h6>
             </Link>
-            <Link href="/projects" className="header-nav-item black-70">
+            <Link href="/projects" className="header-nav-item black-80">
               <i className="btn-32">
                 <FaRegLightbulb />
               </i>
               <h6 className="h6">Projects</h6>
             </Link>
-            <Link href="/profile" className="header-nav-item black-70">
+            {/* <Link href="/profile" className="header-nav-item black-80">
               <i className="btn-32">
                 <GoPerson />
               </i>
               <h6 className="h6">Profile</h6>
-            </Link>
+            </Link> */}
           </ul>
           {status === "authenticated" ? (
             <div className="header-addproject-container">
+              <div
+                className="header-profile-image"
+                onClick={() => {
+                  setProfileNav({ ...profileNav, status: !profileNav.status });
+                }}
+              >
+                {session && (
+                  <Image
+                    src={session.user.image}
+                    alt={""}
+                    width={100}
+                    height={100}
+                  ></Image>
+                )}
+                <div
+                  className={`${profileNav.status && "show-header-profileNav"}`}
+                >
+                  <ProfileNav />
+                </div>
+
+                {/* <div className="header-addproject-container">
               <Link
                 href="/api/auth/signout"
                 onClick={(e) => {
@@ -59,6 +101,8 @@ function Header() {
                   </i>
                 </button>
               </Link>
+            </div> */}
+              </div>
             </div>
           ) : (
             <div className="header-addproject-container ">
@@ -68,9 +112,9 @@ function Header() {
                   signIn();
                 }}
               >
-                <button className="header-add-project  hover-text-btn">
+                {/* <button className="header-add-project  hover-text-btn">
                   <p className="h6 black-90">Add project</p>
-                </button>
+                </button> */}
                 <button className="header-add-project-btn">
                   <i className="icon-32">
                     <BsPlus />
@@ -79,22 +123,6 @@ function Header() {
               </Link>
             </div>
           )}
-
-          <button
-            className="header-menu"
-            onClick={
-              () => {
-                nav.status
-                  ? setNav({ ...nav, state: "navOut" })
-                  : setNav({ status: true, state: "navIn" });
-              }
-              //
-            }
-          >
-            <i className="icon-32">
-              {nav.status ? <BsX /> : <HiOutlineBars2 />}
-            </i>
-          </button>
         </div>
       </div>
       <div

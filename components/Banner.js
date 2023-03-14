@@ -8,8 +8,6 @@ import { HiArrowLongRight } from "react-icons/hi2";
 function Banner() {
   const { recommended, currentBanner, setCurrentBanner } =
     useContext(homeContext);
-  // const { id, header, description } = currentBanner;
-  // console.log(recommended);
   useEffect(() => {
     setCurrentBanner(
       recommended[Math.floor(Math.random() * recommended.length)]
@@ -46,11 +44,11 @@ function Banner() {
       <div className="banner-info">
         <div className="banner-info-item">
           <h1 className="h1 white">
-            {currentBanner?.header && currentBanner?.header}
+            {currentBanner?.projectName && currentBanner?.projectName}
           </h1>
         </div>
         <div className="banner-info-item">
-          <h5 className="h5 white">
+          <h5 className="h5 white text-center">
             {currentBanner?.description
               ? currentBanner?.description
               : ` To get around on a daily basis, to earn money or to order your
@@ -65,7 +63,7 @@ function Banner() {
             </i>
           </button>
           <Link
-            href={`/projects/${currentBanner?.id}`}
+            href={`/projects/${currentBanner?._id}`}
             className="banner-donate"
           >
             <h6 className="h6 white">donate now</h6>

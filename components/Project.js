@@ -2,12 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-function Project({ id, header, description, raised, donators, projectImg }) {
+function Project({
+  _id,
+  uid,
+  projectName,
+  description,
+  raised,
+  donators,
+  projectImg,
+}) {
   return (
-    <Link
-      href={`https://financee.onrender.com/projects/${id}`}
-      className="project"
-    >
+    <Link href={`/projects/${_id}`} className="project">
       <div className="description"></div>
       <div className="project-img">
         <Image
@@ -23,7 +28,7 @@ function Project({ id, header, description, raised, donators, projectImg }) {
         />
       </div>
       <div className="project-info">
-        <h6 className="h6 black-90">{header}</h6>
+        <h6 className="h6 black-90">{projectName}</h6>
         <div className="project-processbar"></div>
         <div className="project-p-items">
           <p className="p black-70">Raised:</p>

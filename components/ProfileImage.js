@@ -1,4 +1,5 @@
 import { profileContext } from "@/pages/profile";
+import { projectContext } from "@/pages/profile/[projectId]";
 import { stateContext } from "@/pages/_app";
 import Image from "next/image";
 import React, { useContext, useState } from "react";
@@ -14,8 +15,8 @@ function ProfileImage() {
     objectURL: "",
   });
 
-  const { myProfile, addImage } = useContext(stateContext);
-  const { session } = useContext(profileContext);
+  const { addImage } = useContext(stateContext);
+  const { session, projectState } = useContext(projectContext);
   // console.log(newImg);
   return (
     <div className="profileImage">
@@ -24,9 +25,9 @@ function ProfileImage() {
           src={
             newImg.objectURL !== ""
               ? `${newImg.objectURL}`
-              : !myProfile.projectImg || myProfile.projectImg === ""
+              : !projectState.projectImg || projectState.projectImg === ""
               ? "/exeption/profileImage.png"
-              : myProfile.projectImg && `${myProfile.projectImg}`
+              : projectState.projectImg && `${projectState.projectImg}`
           }
           alt=""
           height={400}
@@ -53,7 +54,7 @@ function ProfileImage() {
         )}
 
         <div className="profile-form-buttons">
-          {(myProfile.projectImg === "" || !myProfile.projectImg) &&
+          {(projectState.projectImg === "" || !projectState.projectImg) &&
           !newImg.status ? (
             <button
               className="profile-form-button"
@@ -66,7 +67,7 @@ function ProfileImage() {
               </i>
               <p className="small-p black-90">add</p>
             </button>
-          ) : !(myProfile.projectImg === "" || !myProfile.projectImg) &&
+          ) : !(projectState.projectImg === "" || !projectState.projectImg) &&
             !newImg.status ? (
             <>
               <button
@@ -93,13 +94,15 @@ function ProfileImage() {
                 className="profile-form-button"
                 onClick={() => {
                   if (session && newImg.img && newImg.path !== "") {
-                    addImage(session.user?.id, newImg.img, newImg.path, {
+                    addImage(projectState._id, newImg.img, newImg.path, {
                       user: session.user.name,
                       id: session.user.id,
                       subject: "MODIFIED",
                       msg: `${
-                        myProfile.header ? myProfile.header : "user"
-                      } modified there project image`,
+                        session.user.name
+                          ? session.user.name
+                          : projectState.projectName
+                      } modified ${projectState.projectName}'s image`,
                       item: "image",
                     });
                     setNewImg({

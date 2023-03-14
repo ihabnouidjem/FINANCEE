@@ -15,20 +15,22 @@ import ProfileCategory from "./ProfileCategory";
 import ProfileMSG from "./ProfileMSG";
 import ProfileImage from "./ProfileImage";
 import Head from "next/head";
+import Link from "next/link";
+import ProfileProject from "./ProfileProject";
 
 function ProfileUser() {
   const { reload } = useContext(stateContext);
   const {
     sessionState,
     myProfile,
-    profile,
-    prflStatusMSG,
-    newHeader,
-    setNewHeader,
-    newDescription,
-    setNewDescription,
-    newFunds,
-    setNewFunds,
+    // profile,
+    // prflStatusMSG,
+    // newHeader,
+    // setNewHeader,
+    // newDescription,
+    // setNewDescription,
+    // newFunds,
+    // setNewFunds,
     newFacebook,
     setNewFacebook,
     newInstagram,
@@ -37,22 +39,24 @@ function ProfileUser() {
     setNewTwitter,
     newYoutube,
     setNewYoutube,
-    newEmail,
-    setNewEmail,
-    newPhone,
-    setNewPhone,
-    newCcp,
-    setNewCcp,
-    newKey,
-    setNewKey,
-    newPaypal,
-    setNewPaypal,
+    // newEmail,
+    // setNewEmail,
+    // newPhone,
+    // setNewPhone,
+    // newCcp,
+    // setNewCcp,
+    // newKey,
+    // setNewKey,
+    // newPaypal,
+    // setNewPaypal,
     modifyItem,
     setModifyItem,
     session,
     addPrflItem,
     updateProfile,
+    myProjects,
   } = useContext(profileContext);
+  // console.log(myProfile);
   return (
     <div className="profile">
       <Head>
@@ -60,21 +64,8 @@ function ProfileUser() {
         <meta name="description" content="FINANCEE profile page" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      {/* {reload.status && (
-        <div className={"reloading"}>
-          <div className="reloading-icons">
-            <i className="icon-40 reloading-icon-1 black-70">
-              <AiOutlineLoading3Quarters />
-            </i>
-            <i className="icon-32 reloading-icon-2 black-70">
-              <AiOutlineLoading />
-            </i>
-          </div>
-        </div>
-      )} */}
-
       <div className="profile-user">
-        <div className="profile-user-img">
+        {/* <div className="profile-user-img">
           {sessionState && (
             <Image
               src={sessionState.user.image}
@@ -83,115 +74,43 @@ function ProfileUser() {
               height={100}
             ></Image>
           )}
-        </div>
+        </div> */}
         <h5 className="h5 black-90">{`${sessionState?.user.name}`}</h5>
-        {/* <button
-          className="profile-delete"
-          onClick={() =>
-            deleteProject(session?.user.id, { id: `${session?.user.id}` })
-          }
-        >
-          <h6 className="h6 red-pink">delete</h6>
-        </button> */}
       </div>
-      <div className={"profile-project"}>
-        {myProfile.adminMSG?.status && (
-          <ProfileMSG message={myProfile.adminMSG} type="blueMSG" />
-        )}
-        {myProfile.adminMassMSG?.status && (
-          <ProfileMSG message={myProfile.adminMassMSG} type="blackMSG" />
-        )}
-        {myProfile.statusMSG?.status && (
-          <ProfileMSG
-            message={myProfile.statusMSG}
-            type={
-              myProfile.status === "blocked" || myProfile.status === "declined"
-                ? "redMSG"
-                : "greenMSG"
-            }
-          />
-        )}
+      {(myProfile.adminMSG?.status || myProfile.adminMassMSG?.status) && (
+        <div className="profile-projects-header">
+          <h5 className="h5 black-90">MESSAGES</h5>
+        </div>
+      )}
+      {myProfile.adminMSG?.status && (
+        <ProfileMSG message={myProfile.adminMSG} type="blueMSG" />
+      )}
+      {myProfile.adminMassMSG?.status && (
+        <ProfileMSG message={myProfile.adminMassMSG} type="blackMSG" />
+      )}
+      <div className="profile-projects">
+        <div className="profile-projects-header">
+          <h5 className="h5 black-90">MY PROJECTS</h5>
+          <Link
+            href={"/profile/new"}
+            className={`profile-text-btn linear-gold`}
+          >
+            <h6 className="h6 white">New Project</h6>
+          </Link>
+        </div>
+        <div className="profile-projects-cards">
+          {myProjects?.map((project) => {
+            return (
+              <ProfileProject key={project.insertedID} project={project} />
+            );
+          })}
+        </div>
+      </div>
+      <div className="profile-projects-header">
+        <h5 className="h5 black-90">MY PROFILE</h5>
+      </div>
 
-        <ProfileHeader
-          newHeader={newHeader}
-          setNewHeader={setNewHeader}
-          prflHeader={myProfile.header}
-          modifyItem={modifyItem}
-          setModifyItem={setModifyItem}
-          session={session}
-          addPrflItem={addPrflItem}
-          updateProfile={updateProfile}
-        />
-        <div className="profile-progress-bar">
-          <div className="profile-progress-items">
-            <div className="profile-progress-item">
-              <i className="icon-40 black-80">
-                <BsFillSuitHeartFill />
-              </i>
-              <h6 className="h6 black-80">{`${
-                myProfile.likes ? myProfile.likes : 0
-              } likes`}</h6>
-            </div>
-            <div className="profile-progress-item">
-              <i className="icon-40 black-80">
-                <GiMoneyStack />
-              </i>
-              <h6 className="h6 black-80">{`${
-                myProfile.raised ? myProfile.raised : 0
-              } DA raised`}</h6>
-            </div>
-          </div>
-          <div className="profile-progress-items">
-            <div className="profile-progress-item">
-              <i className="icon-40 black-80">
-                <FaDonate />
-              </i>
-              <h6 className="h6 black-80">{`${
-                myProfile.donators ? myProfile.donators : 0
-              } donators`}</h6>
-            </div>
-            <div className="profile-progress-item">
-              <i className="icon-40 black-80">
-                <BsEye />
-              </i>
-              <h6 className="h6 black-80">{`${
-                myProfile.views ? myProfile.views : 0
-              } views`}</h6>
-            </div>
-          </div>
-        </div>
-        <ProfileDescription
-          newDescription={newDescription}
-          setNewDescription={setNewDescription}
-          prflDescription={myProfile?.description}
-          modifyItem={modifyItem}
-          setModifyItem={setModifyItem}
-          session={session}
-          addPrflItem={addPrflItem}
-          updateProfile={updateProfile}
-        />
-        <div className="profile-text-container">
-          <h6 className="h6 black-70 text-center">{"IMAGE"}</h6>
-        </div>
-        <ProfileImage />
-        <div className="profile-text-container">
-          <h6 className="h6 black-70 text-center">{"AMOUNT NEEDED"}</h6>
-        </div>
-        <ProfileElement
-          item={"amount"}
-          newItem={newFunds}
-          setNewItem={setNewFunds}
-          prflItem={myProfile.funds}
-          modifyItem={modifyItem}
-          setModifyItem={setModifyItem}
-          session={session}
-          addPrflItem={addPrflItem}
-          updateProfile={updateProfile}
-        />
-        <div className="profile-text-container">
-          <h6 className="h6 black-70 text-center">{"CATEGORY"}</h6>
-        </div>
-        <ProfileCategory myProfile={myProfile} />
+      <div className={"profile-project"}>
         <div className="profile-text-container">
           <h6 className="h6 black-70 text-center">{"SOCIAL MEDIA"}</h6>
         </div>
@@ -282,26 +201,14 @@ function ProfileUser() {
         </div>
         <div className="profile-forms-container">
           <ProfileElement
-            item={"phone"}
-            newItem={newPhone}
-            setNewItem={setNewPhone}
-            prflItem={myProfile.phone}
-            modifyItem={modifyItem}
-            setModifyItem={setModifyItem}
+            element={"phone"}
+            profileElement={myProfile.phone}
             session={session}
-            addPrflItem={addPrflItem}
-            updateProfile={updateProfile}
           />
           <ProfileElement
-            item={"email"}
-            newItem={newEmail}
-            setNewItem={setNewEmail}
-            prflItem={myProfile.bussinessEmail}
-            modifyItem={modifyItem}
-            setModifyItem={setModifyItem}
+            element={"email"}
+            profileElement={myProfile.businessEmail}
             session={session}
-            addPrflItem={addPrflItem}
-            updateProfile={updateProfile}
           />
         </div>
         <div className="profile-text-container">
@@ -309,37 +216,19 @@ function ProfileUser() {
         </div>
         <div className="profile-forms-container">
           <ProfileElement
-            item={"ccp"}
-            newItem={newCcp}
-            setNewItem={setNewCcp}
-            prflItem={myProfile.ccp}
-            modifyItem={modifyItem}
-            setModifyItem={setModifyItem}
+            element={"ccp"}
+            profileElement={myProfile.ccp}
             session={session}
-            addPrflItem={addPrflItem}
-            updateProfile={updateProfile}
           />
           <ProfileElement
-            item={"key"}
-            newItem={newKey}
-            setNewItem={setNewKey}
-            prflItem={myProfile.key}
-            modifyItem={modifyItem}
-            setModifyItem={setModifyItem}
+            element={"key"}
+            profileElement={myProfile.key}
             session={session}
-            addPrflItem={addPrflItem}
-            updateProfile={updateProfile}
           />
           <ProfileElement
-            item={"paypal"}
-            newItem={newPaypal}
-            setNewItem={setNewPaypal}
-            prflItem={myProfile.paypal}
-            modifyItem={modifyItem}
-            setModifyItem={setModifyItem}
+            element={"paypal"}
+            profileElement={myProfile.paypal}
             session={session}
-            addPrflItem={addPrflItem}
-            updateProfile={updateProfile}
           />
         </div>
       </div>

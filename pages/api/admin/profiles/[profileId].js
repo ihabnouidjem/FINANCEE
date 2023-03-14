@@ -2,17 +2,17 @@ import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
 export default async function Handler(req, res) {
-  const { projectId } = await req.query;
+  const { profileId } = await req.query;
 
   const client = await clientPromise;
   const db = await client.db("Profiles");
 
   if (req.method === "POST") {
-    const msg = { msg: "project updated" };
+    const msg = { msg: "profile updated" };
     const items = await req.body.newItems;
 
-    const updateProfile = await db.collection("Projects").updateOne(
-      { _id: new ObjectId(projectId) },
+    const updateProfile = await db.collection("Profiles").updateOne(
+      { id: profileId },
       {
         $set: items,
         $currentDate: { lastUpdated: true },

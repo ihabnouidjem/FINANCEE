@@ -22,22 +22,18 @@ function ProjectId({ oneProject, pid, approved }) {
   const { navStatus, setNavStatus, increaseField } = useContext(stateContext);
 
   const {
-    id,
-    header,
+    _id,
+    uid,
+    projectName,
     description,
+    amount,
     projectImg,
     facebook,
     instagram,
     twitter,
     youtube,
-    bussinessEmail,
-    phone,
-    ccp,
-    key,
-    paypal,
     raised,
     donators,
-    funds,
     likes,
     views,
   } = oneProject;
@@ -48,17 +44,7 @@ function ProjectId({ oneProject, pid, approved }) {
     const increaseViews = async () => {
       let currViews = await views;
       currViews++;
-      increaseField(
-        pid,
-        { views: currViews }
-        // {
-        //   user: header,
-        //   id: id,
-        //   subject: "INCREASED",
-        //   msg: `${header ? header : "user"}'s views increased to ${currViews}`,
-        //   item: "views",
-        // }
-      );
+      increaseField(pid, { views: currViews });
     };
     increaseViews();
   }, []);
@@ -99,11 +85,23 @@ function ProjectId({ oneProject, pid, approved }) {
   return (
     <div className="projectPage">
       <Head>
-        <title>FINANCEE | {header}</title>
+        <title>FINANCEE | {projectName}</title>
         <meta name="description" content="FINANCEE project page" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="projectPage-header">
+        <div className="projectPage-header-head">
+          <h4 className="h4 black-90">{projectName}</h4>
+        </div>
+        <div className="projectPage-p-container">
+          <p className="p black-50 text-center">{description}</p>
+        </div>
+        <div className="projectPage-p-container">
+          <h6 className="h6 black-70 text-center">GOAL</h6>
+        </div>
+        <div className="projectPage-p-container">
+          <h3 className="h3 black-70 text-center">{amount}</h3>
+        </div>
         <div className="profile-progress-bar">
           <div className="profile-progress-items">
             <div className="profile-progress-item">
@@ -138,16 +136,6 @@ function ProjectId({ oneProject, pid, approved }) {
             </div>
           </div>
         </div>
-        <div className="projectPage-header-head">
-          <h4 className="h4 black-90">{header}</h4>
-        </div>
-        <div className="projectPage-p-container">
-          <p className="p black-50 text-center">
-            {description}
-            {/* To get around on a daily basis, to earn money or to order your
-            meals, YASSIR is the application that meets your needs. */}
-          </p>
-        </div>
         <div className="projectPage-header-info">
           <div className="projectPage-header-img">
             <Image
@@ -165,19 +153,7 @@ function ProjectId({ oneProject, pid, approved }) {
             <div
               className="projectPage-project-footer-icon"
               onClick={() => {
-                increaseField(
-                  pid,
-                  { likes: likes + 1 }
-                  // {
-                  //   user: header,
-                  //   id: id,
-                  //   subject: "INCREASED",
-                  //   msg: `${header ? header : "user"}'s likes increased to ${
-                  //     likes + 1
-                  //   }`,
-                  //   item: "views",
-                  // }
-                );
+                increaseField(pid, { likes: likes + 1 });
               }}
             >
               <button className="">
@@ -243,12 +219,12 @@ function ProjectId({ oneProject, pid, approved }) {
             </button>
           )}
         </div>
-        {(bussinessEmail || phone) && (
+        {/* {(bussinessEmail || phone) && (
           <div className="projectPage-p-container">
             <h6 className="h6 black-70 text-center">CONTACT INFO</h6>
           </div>
-        )}
-        <div className="projectPage-contact">
+        )} */}
+        {/* <div className="projectPage-contact">
           {phone && (
             <div className="projectPage-contact-info-container">
               <p className="p black-70 text-center">{phone}</p>
@@ -269,14 +245,14 @@ function ProjectId({ oneProject, pid, approved }) {
               </button>
             </div>
           )}
-        </div>
-        {((ccp && key) || paypal) && (
+        </div> */}
+        {/* {((ccp && key) || paypal) && (
           <div className="projectPage-p-container">
             <h6 className="h6 black-70 text-center">PAYMENT INFO</h6>
           </div>
-        )}
+        )} */}
 
-        <div className="projectPage-payment-info-container">
+        {/* <div className="projectPage-payment-info-container">
           {ccp && key && (
             <div className="projectPage-details-container">
               <h6 className="h6 black-70 fit-width">ccp:</h6>
@@ -295,7 +271,7 @@ function ProjectId({ oneProject, pid, approved }) {
               <p className="p black-50 fit-width">{paypal}</p>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -306,7 +282,11 @@ export default ProjectId;
 export async function getServerSideProps(req, res) {
   const { projectId } = req.query;
   const oneProject = await fetch(
-    `https://financee.onrender.com/api/projects/${projectId}`
+    `${
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.NODE_ENV === "production" && "http://localhost:3000"
+    }/api/projects/test/${projectId}`
   ).then((data) => {
     return data.json();
   });

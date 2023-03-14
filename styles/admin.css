@@ -27,10 +27,14 @@
     align-items: center;
     flex-wrap:wrap;
     padding: 32px 0 32px 0;
+    gap:16px;
 }
-.admin-item-header h5{
+/* .admin-item-header h5{
     margin-right:auto;
-}
+} */
+/* .admin-item-counter{
+    margin-left:right;
+} */
 .admin-item-header button{
     margin-left:auto;
 }

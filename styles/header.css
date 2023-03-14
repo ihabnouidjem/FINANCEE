@@ -32,7 +32,7 @@
     display:flex;
     flex-direction: row;
     align-items: center;
-    gap:16px;
+    gap:8px;
 }
 .header-addproject-container{
     padding: 0 0 0 32px;
@@ -45,7 +45,14 @@
     background : transparent;
 }
 .header-add-project-btn{
-    display: none;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border:1px solid var(--black-30);
+    background: transparent;
 }
 .header-logout{
     height: 40px;
@@ -59,6 +66,88 @@
 }
 .header-menu{
     display:none;
+}
+.header-profile-image{
+    height:40px;
+    width:40px;
+    display:flex;
+    align-items:center;
+    justify-content: center;
+}
+.header-profile-image img{
+    height:100%;
+    width:100%;
+    border-radius: 50%;
+    object-fit:cover;
+}
+.header-profileNav{
+    display:none;
+}
+.show-header-profileNav .header-profileNav{
+    position:fixed;
+    top:72px;
+    right:64px;
+    display:flex;
+    max-height: calc(100vh - 120px);
+    overflow-y:scroll;
+    overflow-x: unset;
+    gap:16px;
+    padding:16px 64px 16px 64px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    background-color: var(--white);
+    border-left:1px solid var(--black-30);
+    border-bottom:1px solid var(--black-30);
+    border-right:1px solid var(--black-30);
+    /* box-shadow: 0 0 8px var(--black-20); */
+    display:flex;
+    flex-direction: column;
+}
+.show-header-profileNav .header-profileNav::-webkit-scrollbar{
+    width:6px;
+    margin:16px;
+}
+.show-header-profileNav .header-profileNav::-webkit-scrollbar-thumb{
+    width:6px;
+    background-color:var(--black-70);
+}
+.header-popup-section{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    padding:16px 0 16px 0;
+    border-top:1px solid var(--black-30);
+    border-bottom:1px solid var(--black-30);
+}
+.header-popup-btn{
+    min-width:200px;
+    /* height:48px; */
+    padding:8px 24px 8px 24px;
+    border-radius: 16px;
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+    border:1px solid var(--black-20);
+}
+.header-popup-gold-btn{
+    min-width:200px;
+    /* height:48px; */
+    padding:8px 24px 8px 24px;
+    border-radius: 16px;
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.header-popup-ti-btn{
+    min-width:200px;
+    height:48px;
+    padding:8px 24px 8px 24px;
+    border-radius: 16px;
+    display:flex;
+    flex-direction: row;
+    gap:8px;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .header-categories{
@@ -123,6 +212,16 @@
         border-radius: 8px;
         background : transparent; */
     }
+    .header-add-project-btn{
+        height: 40px;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        border:1px solid var(--black-30);
+        background: transparent;
+    }
     .header-menu{
         display:flex;
         background-color: none;
@@ -130,6 +229,54 @@
         border-left: 1px solid var(--black-30); */
         background: transparent;
     }
+    .header-profileNav{
+        display:none;
+    }
+    .show-header-profileNav .header-profileNav{
+        position:fixed;
+        top:64px;
+        right:32px;
+        /* display:flex; */
+        /* gap:16px; */
+        padding:16px 32px 16px 32px;
+        /* border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        background-color: var(--white);
+        border-left:1px solid var(--black-30);
+        border-bottom:1px solid var(--black-30);
+        border-right:1px solid var(--black-30); */
+        /* box-shadow: 0 0 8px var(--black-20); */
+        /* display:flex;
+        flex-direction: column; */
+    }
+    /* .header-popup-section{
+        display:flex;
+        flex-direction:column;
+        gap:16px;
+        padding:16px 0 16px 0;
+        border-top:1px solid var(--black-30);
+        border-bottom:1px solid var(--black-30);
+    } */
+    /* .header-popup-btn{
+        min-width:200px;
+        height:48px;
+        padding:8px 24px 8px 24px;
+        border-radius: 16px;
+        display:flex;
+        align-items: center;
+        justify-content: flex-start;
+    } */
+    /* .header-popup-ti-btn{
+        min-width:200px;
+        height:48px;
+        padding:8px 24px 8px 24px;
+        border-radius: 16px;
+        display:flex;
+        flex-direction: row;
+        gap:8px;
+        align-items: center;
+        justify-content: flex-start;
+    } */
     .header-categories{
         /* position: fixed; */
         /* left:0;
@@ -188,6 +335,67 @@
         border-radius: 8px;
         border:1px solid var(--black-30);
         background: transparent;
+    }
+    .header-profile-image{
+        height:32px;
+        width:32px;
+        display:flex;
+        align-items:center;
+        justify-content: center;
+    }
+    .header-profile-image img{
+        height:100%;
+        width:100%;
+        border-radius: 50%;
+        object-fit:cover;
+    }
+    .header-profileNav{
+        display:none;
+    }
+    .show-header-profileNav .header-profileNav{
+        position:fixed;
+        top:56px;
+        right:16px;
+        /* display:flex; */
+        gap:8px;
+        padding:16px 32px 16px 32px;
+        /* border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+        background-color: var(--white);
+        border-left:1px solid var(--black-30);
+        border-bottom:1px solid var(--black-30);
+        border-right:1px solid var(--black-30); */
+        /* box-shadow: 0 0 8px var(--black-20); */
+        /* display:flex;
+        flex-direction: column; */
+    }
+    .header-popup-section{
+        /* display:flex;
+        flex-direction:column; */
+        gap:8px;
+        /* padding:16px 0 16px 0;
+        border-top:1px solid var(--black-30);
+        border-bottom:1px solid var(--black-30); */
+    }
+    .header-popup-btn{
+        /* min-width:200px; */
+        /* height:40px; */
+        padding:8px 16px 8px 16px;
+        /* border-radius: 12px; */
+        /* display:flex;
+        align-items: center;
+        justify-content: flex-start; */
+    }
+    .header-popup-ti-btn{
+        min-width:200px;
+        /* height:40px; */
+        padding:8px 16px 8px 16px;
+        border-radius: 8px;
+        /* display:flex;
+        flex-direction: row;
+        gap:8px;
+        align-items: center;
+        justify-content: flex-start; */
     }
     .header-categories{
         /* position: fixed; */

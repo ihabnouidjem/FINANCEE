@@ -17,8 +17,8 @@ function Projects({ allProjects }) {
   const [loading, setLoading] = useState({ loading: false });
   const [search, setSearch] = useState({
     status: false,
-    currHeader: "",
-    header: "",
+    currProjectName: "",
+    projectName: "",
     noMatch: false,
     empty: true,
     projects: [],
@@ -31,8 +31,8 @@ function Projects({ allProjects }) {
     setSearch({
       ...search,
       status: false,
-      currHeader: "",
-      header: "",
+      currProjectName: "",
+      projectName: "",
       noMatch: false,
       empty: true,
     });
@@ -42,14 +42,21 @@ function Projects({ allProjects }) {
     setSearch({
       ...search,
       status: true,
-      currHeader: search.header,
+      currProjectName: search.projectName,
       empty: true,
     });
     searchInputRef.current.value = "";
     axios
-      .post(`https://financee.onrender.com/api/projects/search`, {
-        header: `${projectName}`,
-      })
+      .post(
+        `${
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:3000"
+            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        }/api/projects/search`,
+        {
+          projectName: `${projectName}`,
+        }
+      )
       .then(async (res) => {
         await setProjects(res.data);
         setLoading({ ...loading, loading: false });
@@ -117,7 +124,11 @@ function Projects({ allProjects }) {
               placeholder="search projects"
               className="filter-search-input"
               onChange={(e) =>
-                setSearch({ ...search, empty: false, header: e.target.value })
+                setSearch({
+                  ...search,
+                  empty: false,
+                  projectName: e.target.value,
+                })
               }
             />
             {searchInputRef.current?.value && !search.empty && (
@@ -139,7 +150,7 @@ function Projects({ allProjects }) {
               onClick={() => {
                 searchInputRef.current?.value &&
                   !search.empty &&
-                  searchProjects(search?.header);
+                  searchProjects(search?.projectName);
               }}
             >
               <i className="icon-32 black-90">
@@ -167,8 +178,8 @@ function Projects({ allProjects }) {
             <div className="projectsPage-search-status">
               <h6 className="h6 black-90">
                 {projects.length !== 0
-                  ? `results for ${search.currHeader}:`
-                  : `no match for ${search.currHeader}`}
+                  ? `results for ${search.currProjectName}:`
+                  : `no match for ${search.currProjectName}`}
               </h6>
               <button
                 className="projectsPage-search-btn"
@@ -186,8 +197,8 @@ function Projects({ allProjects }) {
             ? projects.map(
                 ({
                   _id,
-                  id,
-                  header,
+                  uid,
+                  projectName,
                   description,
                   raised,
                   donators,
@@ -196,8 +207,9 @@ function Projects({ allProjects }) {
                   return (
                     <Project
                       key={_id}
-                      id={id}
-                      header={header}
+                      _id={_id}
+                      uid={uid}
+                      projectName={projectName}
                       description={description}
                       raised={raised}
                       donators={donators}
@@ -221,7 +233,11 @@ export default Projects;
 
 export async function getServerSideProps() {
   const projects = await fetch(
-    `https://financee.onrender.com/api/projects`
+    `${
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.NODE_ENV === "production" && "http://localhost:3000"
+    }/api/projects/test`
   ).then((data) => {
     return data.json();
   });
