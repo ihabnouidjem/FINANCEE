@@ -276,7 +276,7 @@ function Profile({
               <h5 className="h5 black-90">{`${sessionState?.user.name}`}</h5>
             </div>
             <div className="admin-nav-header">
-              {navItems.map((item) => {
+              {navItems?.map((item) => {
                 return (
                   <div className="" key={navItems.indexOf(item)}>
                     <h6
