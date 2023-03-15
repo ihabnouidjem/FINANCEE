@@ -12,7 +12,6 @@ function ProfileNav() {
       setProjects(myProfile.projects);
     }
   }, [myProfile, admin]);
-  console.log(projects);
   return (
     <div className="header-profileNav">
       <Link href={`/profile`} className="header-popup-btn hover-text-btn">
@@ -21,7 +20,7 @@ function ProfileNav() {
       {!admin && (
         <div className="header-popup-section">
           <h5 className="h5 black-90">PROJECTS</h5>
-          {projects.map((project) => {
+          {projects?.map((project) => {
             return (
               <Link
                 key={project._id}
