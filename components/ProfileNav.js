@@ -9,7 +9,7 @@ function ProfileNav() {
   const [projects, setProjects] = useState([]);
   useEffect(() => {
     if (!admin) {
-      setProjects(myProfile.projects);
+      setProjects(myProfile?.projects);
     }
   }, [myProfile, admin]);
   return (
@@ -23,7 +23,7 @@ function ProfileNav() {
           {projects?.map((project) => {
             return (
               <Link
-                key={project._id}
+                key={project.insertedID}
                 href={`/profile/${project.insertedID}`}
                 className="header-popup-btn hover-text-btn"
               >
