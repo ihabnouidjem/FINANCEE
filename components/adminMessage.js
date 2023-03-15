@@ -39,7 +39,7 @@ function AdminMessage() {
               process.env.NODE_ENV === "development"
                 ? "http://localhost:3000"
                 : process.env.NODE_ENV === "production" &&
-                  "https://financee.onrender.com"
+                  "https://financee-nu.vercel.app"
             }/api/admin/profiles/${adminMSG.destinationId}`,
             { newItems: newMSG }
           )
@@ -64,7 +64,7 @@ function AdminMessage() {
               process.env.NODE_ENV === "development"
                 ? "http://localhost:3000"
                 : process.env.NODE_ENV === "production" &&
-                  "https://financee.onrender.com"
+                  "https://financee-nu.vercel.app"
             }/api/admin/profiles`,
             {
               newItems: newMassMSG,

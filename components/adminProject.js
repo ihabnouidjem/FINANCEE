@@ -23,7 +23,7 @@ function AdminProject({
 
   const changeStatus = (_id, newStatus) => {
     axios
-      .post(`http://localhost:3000/api/admin/projects/${_id}`, {
+      .post(`https://financee-nu.vercel.app/api/admin/projects/${_id}`, {
         newItems: newStatus,
       })
       .then((res) => {

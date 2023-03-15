@@ -23,14 +23,6 @@ function ProfileUser() {
   const {
     sessionState,
     myProfile,
-    // profile,
-    // prflStatusMSG,
-    // newHeader,
-    // setNewHeader,
-    // newDescription,
-    // setNewDescription,
-    // newFunds,
-    // setNewFunds,
     newFacebook,
     setNewFacebook,
     newInstagram,
@@ -39,16 +31,6 @@ function ProfileUser() {
     setNewTwitter,
     newYoutube,
     setNewYoutube,
-    // newEmail,
-    // setNewEmail,
-    // newPhone,
-    // setNewPhone,
-    // newCcp,
-    // setNewCcp,
-    // newKey,
-    // setNewKey,
-    // newPaypal,
-    // setNewPaypal,
     modifyItem,
     setModifyItem,
     session,
@@ -56,7 +38,6 @@ function ProfileUser() {
     updateProfile,
     myProjects,
   } = useContext(profileContext);
-  // console.log(myProfile);
   return (
     <div className="profile">
       <Head>

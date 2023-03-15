@@ -85,7 +85,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/profile/${UID}`
       )
       .then((res) => {
@@ -101,7 +102,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/profile/${uid}`,
         { item: item }
       )
@@ -119,7 +121,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/admin/notifications`,
         notification
       );
@@ -131,7 +134,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV == "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV == "production" && "http://localhost:3000"
+            : process.env.NODE_ENV == "production" &&
+              "https://financee-nu.vercel.app"
         }/api/projects/test/${id}`,
         { item: item }
       )
@@ -149,7 +153,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/admin/notifications`,
         notification
       );
@@ -165,7 +170,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/images/${uid}`,
         body,
         {
@@ -189,7 +195,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/admin/notifications`,
         notification
       );
@@ -201,7 +208,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/projects/test/${pid}`,
         { item: item }
       )
@@ -230,7 +238,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/profile/${uid}`,
         {
           item: item,
@@ -247,7 +256,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/profile/${uid}`
       )
       .then((res) => {
@@ -267,7 +277,8 @@ export default function App({ Component, pageProps }) {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/categories`
       )
       .then((res) => {

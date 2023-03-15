@@ -114,20 +114,6 @@ function ProfileDescription(
                     newDesc: { description: "" },
                   });
                 }
-                // setModifyItem({ ...modifyItem, description: false });
-                // if (newDescription) {
-                //   addPrflItem(session?.user.id, newDescription, {
-                //     user: session.user.name,
-                //     id: session.user.id,
-                //     subject: "MODIFIED",
-                //     msg: `${
-                //       myProfile.header ? myProfile.header : myProfile.id
-                //     } modified there description`,
-                //     item: "description",
-                //   });
-                // }
-                // setNewDescription();
-                // updateProfile(session?.user.id);
               }}
             >
               <i className="icon-24 black-90">

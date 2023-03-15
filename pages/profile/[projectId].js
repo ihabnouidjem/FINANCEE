@@ -1,21 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import Image from "next/image";
-// import ProfileDescription from "./ProfileDescription";
-// import ProfileElement from "./ProfileElement";
-// import ProfileHeader from "./ProfileHeader";
-// import ProfileSocial from "./ProfileSocial";
-// import { BsEye, BsFillSuitHeartFill } from "react-icons/bs";
-// import { GiMoneyStack } from "react-icons/gi";
-// import { FaDonate } from "react-icons/fa";
-// import { profileContext } from "@/pages/profile";
-// import { GoPrimitiveDot } from "react-icons/go";
-// import { AiOutlineLoading, AiOutlineLoading3Quarters } from "react-icons/ai";
-// import { stateContext } from "@/pages/_app";
-// import ProfileCategory from "./ProfileCategory";
-// import ProfileMSG from "./ProfileMSG";
-// import ProfileImage from "./ProfileImage";
 import Head from "next/head";
-// import Link from "next/link";
 import { getSession, useSession } from "next-auth/react";
 import ProfileMSG from "@/components/ProfileMSG";
 import ProfileHeader from "@/components/ProfileHeader";
@@ -48,7 +32,8 @@ function ProfileUser({ project, pid }) {
           `${
             process.env.NODE_ENV === "development"
               ? "http://localhost:3000"
-              : process.env.NODE_ENV === "production" && "domain name here"
+              : process.env.NODE_ENV === "production" &&
+                "https://financee-nu.vercel.app"
           }/api/projects/test/${pid}`
         )
         .then((res) => {
@@ -212,7 +197,7 @@ export async function getServerSideProps(context) {
   }
 
   const profile = await fetch(
-    `http://localhost:3000/api/profile/${session?.user.id}`
+    `https://financee-nu.vercel.app/api/profile/${session?.user.id}`
   )
     .then((data) => {
       return data.json();
@@ -241,7 +226,8 @@ export async function getServerSideProps(context) {
     `${
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000"
-        : process.env.NODE_ENV === "production" && "domain name here"
+        : process.env.NODE_ENV === "production" &&
+          "https://financee-nu.vercel.app"
     }/api/projects/test/${projectId}`
   ).then((data) => {
     return data.json();

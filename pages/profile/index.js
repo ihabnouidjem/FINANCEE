@@ -199,15 +199,17 @@ function Profile({
 
   useEffect(() => {
     if (reload.status && reload.function === "fetchAdminProjects") {
-      axios.get(`http://localhost:3000/api/projects/test`).then((res) => {
-        setAdminProjects(res.data);
-        setReload({
-          status: false,
-          function: "",
-          uid: "",
-          path: "",
+      axios
+        .get(`https://financee-nu.vercel.app/api/projects/test`)
+        .then((res) => {
+          setAdminProjects(res.data);
+          setReload({
+            status: false,
+            function: "",
+            uid: "",
+            path: "",
+          });
         });
-      });
     }
   }, [reload]);
 
@@ -489,7 +491,8 @@ export async function getServerSideProps(context) {
     `${
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000"
-        : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        : process.env.NODE_ENV === "production" &&
+          "https://financee-nu.vercel.app"
     }/api/categories`
   )
     .then((data) => {
@@ -505,7 +508,8 @@ export async function getServerSideProps(context) {
       `${
         process.env.NODE_ENV === "development"
           ? "http://localhost:3000"
-          : process.env.NODE_ENV === "production" && "http://localhost:3000"
+          : process.env.NODE_ENV === "production" &&
+            "https://financee-nu.vercel.app"
       }/api/admin`
     ).then((data) => {
       return data.json();
@@ -514,7 +518,8 @@ export async function getServerSideProps(context) {
       `${
         process.env.NODE_ENV === "development"
           ? "http://localhost:3000"
-          : process.env.NODE_ENV === "production" && "http://localhost:3000"
+          : process.env.NODE_ENV === "production" &&
+            "https://financee-nu.vercel.app"
       }/api/projects/test`
     ).then((data) => {
       return data.json();
@@ -523,7 +528,8 @@ export async function getServerSideProps(context) {
       `${
         process.env.NODE_ENV === "development"
           ? "http://localhost:3000"
-          : process.env.NODE_ENV === "production" && "http://localhost:3000"
+          : process.env.NODE_ENV === "production" &&
+            "https://financee-nu.vercel.app"
       }/api/admin/global`
     ).then((data) => {
       return data.json();
@@ -549,7 +555,8 @@ export async function getServerSideProps(context) {
     `${
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000"
-        : process.env.NODE_ENV === "production" && "http://localhost:3000"
+        : process.env.NODE_ENV === "production" &&
+          "https://financee-nu.vercel.app"
     }/api/profile/${session.user?.id}`,
 
     {

@@ -27,7 +27,8 @@ function New() {
         `${
           process.env.NODE_ENV === "development"
             ? "http://localhost:3000"
-            : process.env.NODE_ENV === "production" && "http://localhost:3000"
+            : process.env.NODE_ENV === "production" &&
+              "https://financee-nu.vercel.app"
         }/api/projects/test`,
         project
       )
