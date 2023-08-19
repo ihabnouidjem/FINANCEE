@@ -67,7 +67,7 @@ function Home({ profile, promoted, latest, banner, categories }) {
         <Banner />
         <HomeProjects />
         <HomeCampaigns />
-        <HomePayment />
+        {/* <HomePayment /> */}
         <HomeWeProvide />
         <HomeHWW />
       </homeContext.Provider>

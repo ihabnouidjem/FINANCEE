@@ -5,7 +5,7 @@ const getBanner = async (db, res) => {
     .collection("Projects")
     .find({ status: "promoted" })
     .toArray();
-  const advertisements = db.collection("Advertisements").find().toArray();
+  const advertisements = db.collection("Advertisements").find({}).toArray();
 
   let banner = [];
   await Promise.all([promoted, advertisements]).then(async (values) => {

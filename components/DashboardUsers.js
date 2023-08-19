@@ -1,4 +1,4 @@
-import DashboardUser from "@/pages/DashboardUser";
+import DashboardUser from "@/components/DashboardUser";
 import React from "react";
 
 function DashboardUsers({ users, heading }) {
@@ -14,7 +14,7 @@ function DashboardUsers({ users, heading }) {
             return <DashboardUser key={user._id} user={user} />;
           })
         ) : (
-          <h6 className="w-full h6 text-zinc-100">No PROJECTS</h6>
+          <h6 className="w-full h6 text-zinc-100">No USERS</h6>
         )}
       </div>
     </div>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useContext } from "react";
-import { dashboardContext } from "./dashboard";
+import { dashboardContext } from "../pages/dashboard";
 
 function DashboardUser({ user }) {
   const { _id, id, name, image, email, phone, baridimob, projects, status } =
