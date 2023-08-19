@@ -38,7 +38,7 @@ function DashboardPage({
       .post(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }${path}`,
         item
@@ -56,7 +56,7 @@ function DashboardPage({
               .post(
                 `${
                   process.env.NODE_ENV === "production"
-                    ? process.env.DOMAIN
+                    ? "https://financee-nu.vercel.app"
                     : "http://localhost:3000"
                 }/api/admin/notifications`,
                 notification
@@ -116,7 +116,7 @@ function DashboardPage({
               .post(
                 `${
                   process.env.NODE_ENV === "production"
-                    ? process.env.DOMAIN
+                    ? "https://financee-nu.vercel.app"
                     : "http://localhost:3000"
                 }/api/admin/notifications`,
                 notification
@@ -150,7 +150,7 @@ function DashboardPage({
               .post(
                 `${
                   process.env.NODE_ENV === "production"
-                    ? process.env.DOMAIN
+                    ? "https://financee-nu.vercel.app"
                     : "http://localhost:3000"
                 }/api/admin/notifications`,
                 notification
@@ -177,7 +177,7 @@ function DashboardPage({
       .delete(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/notifications/${notifyId}`
       )
@@ -193,7 +193,7 @@ function DashboardPage({
       .delete(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/notifications`
       )
@@ -209,7 +209,7 @@ function DashboardPage({
       .post(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/categories`,
         category
@@ -222,7 +222,7 @@ function DashboardPage({
               .post(
                 `${
                   process.env.NODE_ENV === "production"
-                    ? process.env.DOMAIN
+                    ? "https://financee-nu.vercel.app"
                     : "http://localhost:3000"
                 }/api/admin/notifications`,
                 notification
@@ -249,7 +249,7 @@ function DashboardPage({
       .delete(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/categories/${catId}`
       )
@@ -261,7 +261,7 @@ function DashboardPage({
               .post(
                 `${
                   process.env.NODE_ENV === "production"
-                    ? process.env.DOMAIN
+                    ? "https://financee-nu.vercel.app"
                     : "http://localhost:3000"
                 }/api/admin/notifications`,
                 notification
@@ -288,7 +288,7 @@ function DashboardPage({
       .delete(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/campaigns/${campId}`
       )
@@ -300,7 +300,7 @@ function DashboardPage({
               .post(
                 `${
                   process.env.NODE_ENV === "production"
-                    ? process.env.DOMAIN
+                    ? "https://financee-nu.vercel.app"
                     : "http://localhost:3000"
                 }/api/admin/notifications`,
                 notification
@@ -453,7 +453,7 @@ export async function getServerSideProps(context) {
     const profile = await fetch(
       `${
         process.env.NODE_ENV === "production"
-          ? process.env.DOMAIN
+          ? "https://financee-nu.vercel.app"
           : "http://localhost:3000"
       }/api/profile/${session.user?.id}`
     ).then((data) => data.json());
@@ -462,7 +462,7 @@ export async function getServerSideProps(context) {
       const admins = fetch(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/admins`
       ).then((data) => data.json());
@@ -470,7 +470,7 @@ export async function getServerSideProps(context) {
       const projects = fetch(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/projects`
       ).then((data) => data.json());
@@ -478,7 +478,7 @@ export async function getServerSideProps(context) {
       const users = fetch(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/users`
       ).then((data) => data.json());
@@ -486,7 +486,7 @@ export async function getServerSideProps(context) {
       const notifications = fetch(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/notifications`
       ).then((data) => data.json());
@@ -494,7 +494,7 @@ export async function getServerSideProps(context) {
       const categories = fetch(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/categories`
       ).then((data) => data.json());
@@ -502,7 +502,7 @@ export async function getServerSideProps(context) {
       const campaigns = fetch(
         `${
           process.env.NODE_ENV === "production"
-            ? process.env.DOMAIN
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/admin/campaigns`
       ).then((data) => data.json());

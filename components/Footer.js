@@ -172,7 +172,7 @@ function Footer() {
             ? "Credits:"
             : language === "francais" && "Crédits:"}{" "}
           <Link
-            href="https://ihabnouidjem-f48m-pbmojrxkl-ihabnouidjem.vercel.app"
+            href="ihabnouidjem.com"
             className="font-semibold"
             target={"_blink"}
           >

@@ -32,7 +32,7 @@ function ProfileNewUser() {
       .post(
         `${
           process.env.NODE_ENV === "production"
-            ? "domain here"
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }/api/profile`,
         user

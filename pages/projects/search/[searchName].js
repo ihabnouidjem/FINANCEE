@@ -68,7 +68,7 @@ export async function getServerSideProps(context) {
     const profile = fetch(
       `${
         process.env.NODE_ENV === "production"
-          ? "domain here"
+          ? "https://financee-nu.vercel.app"
           : "http://localhost:3000"
       }/api/profile/${session.user.id}`
     ).then((data) => data.json());
@@ -76,7 +76,7 @@ export async function getServerSideProps(context) {
     const categories = fetch(
       `${
         process.env.NODE_ENV === "production"
-          ? process.env.DOMAIN
+          ? "https://financee-nu.vercel.app"
           : "http://localhost:3000"
       }/api/global/categories`
     ).then((data) => data.json());
@@ -84,7 +84,7 @@ export async function getServerSideProps(context) {
     const projects = fetch(
       `${
         process.env.NODE_ENV === "production"
-          ? process.env.DOMAIN
+          ? "https://financee-nu.vercel.app"
           : "http://localhost:3000"
       }/api/projects/search/${searchName}`
     ).then((data) => data.json());
@@ -102,7 +102,7 @@ export async function getServerSideProps(context) {
     const categories = fetch(
       `${
         process.env.NODE_ENV === "production"
-          ? process.env.DOMAIN
+          ? "https://financee-nu.vercel.app"
           : "http://localhost:3000"
       }/api/global/categories`
     ).then((data) => data.json());
@@ -110,7 +110,7 @@ export async function getServerSideProps(context) {
     const projects = fetch(
       `${
         process.env.NODE_ENV === "production"
-          ? process.env.DOMAIN
+          ? "https://financee-nu.vercel.app"
           : "http://localhost:3000"
       }/api/projects/search/${searchName}`
     ).then((data) => data.json());

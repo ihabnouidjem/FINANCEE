@@ -39,7 +39,7 @@ function New({ profile }) {
       .post(
         `${
           process.env.NODE_ENV === "production"
-            ? "domain here"
+            ? "https://financee-nu.vercel.app"
             : "http://localhost:3000"
         }${path}`,
         project
@@ -49,7 +49,7 @@ function New({ profile }) {
           .post(
             `${
               process.env.NODE_ENV === "production"
-                ? "domain here"
+                ? "https://financee-nu.vercel.app"
                 : "http://localhost:3000"
             }/api/profile/${profile.id}`,
             {
@@ -240,7 +240,7 @@ export async function getServerSideProps(context) {
     const profile = await fetch(
       `${
         process.env.NODE_ENV === "production"
-          ? "domain here"
+          ? "https://financee-nu.vercel.app"
           : "http://localhost:3000"
       }/api/profile/${session.user.id}`
     ).then((data) => data.json());

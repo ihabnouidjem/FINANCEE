@@ -18,7 +18,7 @@ function ProjectTextarea({ input, textarea, items }) {
     inp_value: null,
     newItem: { status: true },
   });
-  console.log("activityform", formState);
+
   const changeNewDetail = (e) => {
     setFormState({
       ...formState,

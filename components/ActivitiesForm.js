@@ -58,7 +58,7 @@ function ActivitiesForm({ projectStatus, project }) {
       });
     }
   }, [project]);
-  console.log("activitiesform", activitiesState);
+
   return (
     <div className="w-full flex flex-col items-center gap-2 py-6 px-4 sm:px-8 xl:px-16">
       <div className="w-[min(100%,1400px)] p-3 shadow-md sm:p-4 rounded-xl sm:rounded-2xl flex flex-col gap-3 sm:gap-4 xl:gap-8 ">
