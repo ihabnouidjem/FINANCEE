@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@media only screen and (max-width:1600px) {
+    body::-webkit-scrollbar{
+    display:none;
+}
+}
+
+.u-scrollbar-hidden::-webkit-scrollbar {
+  display:none;
+}
+
+input,textarea,button{
+    border: none;
+    outline: none;
+}
+input:active,textarea:active{
+    border: none;
+    outline: none!important;
+}
+
+
+.h1{
+    @apply font-roboto font-medium text-[55px] sm:text-[102px] xl:text-[113px];
+}
+.h2{
+    @apply font-roboto font-medium text-[44px] sm:text-[72px] xl:text-[80px];
+}
+.h3{
+    @apply font-roboto font-light text-[35px] sm:text-[50px] xl:text-[56px];
+}
+.h4{
+    @apply font-roboto font-medium text-[28px] sm:text-[36px] xl:text-[40px];
+}
+.light-h4{
+    @apply font-roboto font-light text-[28px] sm:text-[36px] xl:text-[40px];
+}
+.h5{
+    @apply font-roboto font-medium text-[22px] sm:text-[25px] xl:text-[28px];
+}
+.h6{
+    @apply font-archivo font-semibold text-[18px] sm:text-[18px] xl:text-[20px];
+}
+.med-h6{
+    @apply font-archivo font-medium text-[18px] sm:text-[18px] xl:text-[20px];
+}
+.small-h6{
+    @apply font-archivo font-semibold text-[14px] sm:text-[14px] xl:text-[16px];
+}
+.p{
+    @apply font-nunito_sans font-normal text-[18px] sm:text-[18px] xl:text-[20px];
+}
+.small-p-16{
+    @apply font-nunito_sans font-semibold text-[14px] sm:text-[14px] xl:text-[16px];
+}
+.small-p{
+    @apply font-nunito_sans font-semibold text-[12px] sm:text-[12px] xl:text-[14px];
+}
+
+
+.linear-yellow {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+    @apply bg-gradient-to-r from-yellow-500 to-yellow-300;
+}
+.icon-20 {
+    @apply h-[20px] w-[20px] text-[18px] flex items-center justify-center;
+}
+.icon-24 {
+    @apply h-6 w-6 text-[22px] flex items-center justify-center;
+}
+.icon-32 {
+    @apply h-8 w-8 text-[30px] flex items-center justify-center;
+}
+.icon-40 {
+    @apply h-[40px] w-[40px] text-[36px] flex items-center justify-center;
+}
+.u-text-icon {
+    @apply h-12 w-[52px] sm:w-[58px] rounded-lg flex flex-col items-center justify-center text-gray-900 active:bg-slate-100 bg-transparent;
+}
+
+
+.test-container {
+    @apply fixed top-16 left-16 bg-black border border-red-400 flex flex-col z-50 text-white p-4;
+}

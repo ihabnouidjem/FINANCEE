@@ -1,303 +1,153 @@
-import Image from "next/image";
-import React, { useState, useEffect, useContext } from "react";
-import {
-  BsEye,
-  BsFacebook,
-  BsTwitter,
-  BsYoutube,
-  BsInstagram,
-  BsFillSuitHeartFill,
-} from "react-icons/bs";
-import { FaShare, FaDonate } from "react-icons/fa";
-import { GiMoneyStack } from "react-icons/gi";
-import { MdContentCopy } from "react-icons/md";
-import { FcDonate } from "react-icons/fc";
-import { stateContext } from "../_app";
-import Head from "next/head";
+import Checkout from "@/components/Checkout";
+import ProjectActivities from "@/components/ProjectActivities";
+import ProjectBanner from "@/components/ProjectBanner";
+import ProjectDescription from "@/components/ProjectDescription";
+import ProjectDonate from "@/components/ProjectDonate";
+import ProjectUpdates from "@/components/ProjectUpdates";
+import { setCategories } from "@/features/categoriesSlice";
+import { scrollPage } from "@/features/pageSlice";
+import { setProfile } from "@/features/profileSlice";
+import { removeSession, setSession } from "@/features/sessionSlice";
+import { getSession, useSession } from "next-auth/react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { appContext } from "../_app";
 
-function ProjectId({ oneProject, pid, approved }) {
-  const [currScroll, setCurrScroll] = useState(0);
-  const [currScrollDist, setCurrScrollDist] = useState(0);
+// export const projectContext = createContext();
 
-  const { navStatus, setNavStatus, increaseField } = useContext(stateContext);
+function ProjectPage({ profile, categories, project }) {
+  const { data: session, status } = useSession();
+  const dispatch = useDispatch();
+  const { projectState, setProjectState } = useContext(appContext);
+  // const [projectState, setProjectState] = useState({
+  //   status: "showcase",
+  //   project: {},
 
-  const {
-    _id,
-    uid,
-    projectName,
-    description,
-    amount,
-    projectImg,
-    facebook,
-    instagram,
-    twitter,
-    youtube,
-    raised,
-    donators,
-    likes,
-    views,
-  } = oneProject;
-
-  // increase views
+  // });
 
   useEffect(() => {
-    const increaseViews = async () => {
-      let currViews = await views;
-      currViews++;
-      increaseField(pid, { views: currViews });
-    };
-    increaseViews();
-  }, []);
+    setProjectState({ ...projectState, status: "showcase", project: project });
+  }, [project]);
   useEffect(() => {
-    const horizontalScroll = () => {
-      setCurrScroll(window.scrollY);
-    };
-    horizontalScroll();
-    document.addEventListener("scroll", horizontalScroll);
-    return () => document.removeEventListener("scroll", horizontalScroll);
-  }, []);
+    dispatch(setCategories(categories));
+  }, [categories]);
   useEffect(() => {
-    setCurrScrollDist(currScroll - navStatus.horScroll);
-    if (currScrollDist >= 0 && currScroll > 400) {
-      setNavStatus({
-        ...navStatus,
-        status: false,
-        horScroll: currScroll,
-        distScrolled: currScrollDist,
-      });
-    } else if (currScrollDist < 0 && currScroll > 400) {
-      setNavStatus({
-        ...navStatus,
-        status: true,
-        horScroll: currScroll,
-        distScrolled: currScrollDist,
-      });
-    } else if (currScroll <= 400) {
-      setNavStatus({
-        ...navStatus,
-        status: true,
-        horScroll: currScroll,
-        distScrolled: currScrollDist,
-      });
+    dispatch(
+      setProfile({
+        profile: profile,
+        projects: profile.projects,
+        status: profile.status,
+      })
+    );
+  }, [profile]);
+  useEffect(() => {
+    if (session) {
+      dispatch(setSession(session.user));
+    } else {
+      dispatch(removeSession());
     }
-  }, [currScroll]);
+  }, [session]);
 
+  useEffect(() => {
+    const scrollHor = () => {
+      dispatch(scrollPage(window.scrollY));
+    };
+    scrollHor();
+
+    document.addEventListener("scroll", scrollHor);
+    return () => document.removeEventListener("scroll", scrollHor);
+  }, []);
   return (
-    <div className="projectPage">
-      <Head>
-        <title>FINANCEE | {projectName}</title>
-        <meta name="description" content="FINANCEE project page" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <div className="projectPage-header">
-        <div className="projectPage-header-head">
-          <h4 className="h4 black-90">{projectName}</h4>
-        </div>
-        <div className="projectPage-p-container">
-          <p className="p black-50 text-center">{description}</p>
-        </div>
-        <div className="projectPage-p-container">
-          <h6 className="h6 black-70 text-center">GOAL</h6>
-        </div>
-        <div className="projectPage-p-container">
-          <h3 className="h3 black-70 text-center">{amount}</h3>
-        </div>
-        <div className="profile-progress-bar">
-          <div className="profile-progress-items">
-            <div className="profile-progress-item">
-              <i className="icon-40 black-80">
-                <BsFillSuitHeartFill />
-              </i>
-              <h6 className="h6 black-80">{`${likes ? likes : 0} likes`}</h6>
-            </div>
-            <div className="profile-progress-item">
-              <i className="icon-40 black-80">
-                <GiMoneyStack />
-              </i>
-              <h6 className="h6 black-80">{`${
-                raised ? raised : 0
-              } DA raised`}</h6>
-            </div>
-          </div>
-          <div className="profile-progress-items">
-            <div className="profile-progress-item">
-              <i className="icon-40 black-80">
-                <FaDonate />
-              </i>
-              <h6 className="h6 black-80">{`${
-                donators ? donators : 0
-              } donators`}</h6>
-            </div>
-            <div className="profile-progress-item">
-              <i className="icon-40 black-80">
-                <BsEye />
-              </i>
-              <h6 className="h6 black-80">{`${views ? views : 0} views`}</h6>
-            </div>
-          </div>
-        </div>
-        <div className="projectPage-header-info">
-          <div className="projectPage-header-img">
-            <Image
-              src={
-                projectImg && projectImg !== ""
-                  ? projectImg
-                  : "/exeption/profileImage.png"
-              }
-              alt=""
-              height={400}
-              width={400}
-            />
-          </div>
-          <div className="projectPage-project-footer">
-            <div
-              className="projectPage-project-footer-icon"
-              onClick={() => {
-                increaseField(pid, { likes: likes + 1 });
-              }}
-            >
-              <button className="">
-                <i className="icon-32 red-heart">
-                  <BsFillSuitHeartFill />
-                </i>
-              </button>{" "}
-              <p className="small-p black text-center fit-width">like</p>
-            </div>
-            <div className="projectPage-project-footer-icon">
-              <button className="">
-                <i className="icon-32 black">
-                  <FaShare />
-                </i>
-              </button>{" "}
-              <p className="small-p black text-center fit-width">share</p>
-            </div>
-            <div className="projectPage-project-footer-icon">
-              <button className="">
-                <i className="icon-32 black">
-                  <FcDonate />
-                </i>
-              </button>{" "}
-              <p className="small-p black text-center fit-width">donate</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="projectPage-project">
-        {(facebook || instagram || twitter || youtube) && (
-          <div className="projectPage-p-container">
-            <h6 className="h6 black-70 text-center">SOCIAL MEDIA</h6>
-          </div>
-        )}
-
-        <div className="projectPage-social-icons">
-          {facebook && (
-            <button className="">
-              <i className="icon-32 black-90">
-                <BsFacebook />
-              </i>
-            </button>
-          )}
-          {twitter && (
-            <button className="">
-              <i className="icon-32 black-90">
-                <BsTwitter />
-              </i>
-            </button>
-          )}
-          {youtube && (
-            <button className="">
-              <i className="icon-32 black-90">
-                <BsYoutube />
-              </i>
-            </button>
-          )}
-          {instagram && (
-            <button className="">
-              <i className="icon-32 black-90">
-                <BsInstagram />
-              </i>
-            </button>
-          )}
-        </div>
-        {/* {(bussinessEmail || phone) && (
-          <div className="projectPage-p-container">
-            <h6 className="h6 black-70 text-center">CONTACT INFO</h6>
-          </div>
-        )} */}
-        {/* <div className="projectPage-contact">
-          {phone && (
-            <div className="projectPage-contact-info-container">
-              <p className="p black-70 text-center">{phone}</p>
-              <button className="">
-                <i className="icon-32 black-90">
-                  <MdContentCopy />
-                </i>
-              </button>
-            </div>
-          )}
-          {bussinessEmail && (
-            <div className="projectPage-contact-info-container">
-              <p className="p black-70 text-center">{bussinessEmail}</p>
-              <button className="">
-                <i className="icon-32 black-90">
-                  <MdContentCopy />
-                </i>
-              </button>
-            </div>
-          )}
-        </div> */}
-        {/* {((ccp && key) || paypal) && (
-          <div className="projectPage-p-container">
-            <h6 className="h6 black-70 text-center">PAYMENT INFO</h6>
-          </div>
-        )} */}
-
-        {/* <div className="projectPage-payment-info-container">
-          {ccp && key && (
-            <div className="projectPage-details-container">
-              <h6 className="h6 black-70 fit-width">ccp:</h6>
-              <p className="p black-50 fit-width">{ccp}</p>
-            </div>
-          )}
-          {ccp && key && (
-            <div className="projectPage-details-container">
-              <h6 className="h6 black-70 fit-width">key:</h6>
-              <p className="p black-50 fit-width">{key}</p>
-            </div>
-          )}
-          {paypal && (
-            <div className="projectPage-details-container">
-              <h6 className="h6 black-70 fit-width">paypal:</h6>
-              <p className="p black-50 fit-width">{paypal}</p>
-            </div>
-          )}
-        </div> */}
-      </div>
+    // <projectContext.Provider value={{ projectState, setProjectState }}>
+    <div className="w-full min-h-screen">
+      <ProjectBanner
+        project={projectState.project}
+        projectStatus={projectState.status}
+      />
+      {projectState.status === "showcase" && <ProjectDonate />}
+      <ProjectDescription
+        project={projectState.project}
+        projectStatus={projectState.status}
+      />
+      <ProjectActivities
+        project={projectState.project}
+        projectStatus={projectState.status}
+      />
+      {projectState.project?.updates && (
+        <ProjectUpdates
+          project={projectState.project}
+          projectStatus={projectState.status}
+        />
+      )}
+      {projectState.checkoutState && <Checkout />}
     </div>
+    // </projectContext.Provider>
   );
 }
 
-export default ProjectId;
+export default ProjectPage;
 
-export async function getServerSideProps(req, res) {
-  const { projectId } = req.query;
-  const oneProject = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : process.env.NODE_ENV === "production" &&
-          "https://financee-nu.vercel.app"
-    }/api/projects/test/${projectId}`
-  ).then((data) => {
-    return data.json();
-  });
-  // if (oneProject.status === "approved" || oneProject.status === "recommended") {
-  return {
-    props: {
-      approved: true,
-      oneProject,
-      pid: projectId,
-    },
-  };
-  // }
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  const { projectId } = await context.params;
+
+  if (session) {
+    const profile = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? "domain here"
+          : "http://localhost:3000"
+      }/api/profile/${session.user.id}`
+    ).then((data) => data.json());
+
+    const categories = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/global/categories`
+    ).then((data) => data.json());
+
+    const project = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/projects/${projectId}`
+    ).then((data) => data.json());
+
+    const data = await Promise.all([profile, categories, project]);
+    return {
+      props: {
+        profile: data[0],
+        categories: data[1],
+        project: data[2],
+      },
+    };
+  } else {
+    //no session here
+    const categories = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/global/categories`
+    ).then((data) => data.json());
+
+    const project = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/projects/${projectId}`
+    ).then((data) => data.json());
+
+    const data = await Promise.all([categories, project]);
+    return {
+      props: {
+        categories: data[0],
+        project: data[1],
+      },
+    };
+  }
 }

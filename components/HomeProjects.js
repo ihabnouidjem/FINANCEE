@@ -1,83 +1,98 @@
-import React, { useState, useContext, useEffect } from "react";
-import { HiArrowLongRight } from "react-icons/hi2";
-import Project from "@/components/Project";
-import { homeContext } from "@/pages";
 import Link from "next/link";
+import React, { useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { BsArrowRight } from "react-icons/bs";
+import ProjectCard from "./ProjectCard";
+import { homeContext } from "@/pages";
 
 function HomeProjects() {
-  const { recommended } = useContext(homeContext);
-  const [recommendations, setRecommendations] = useState([]);
-
+  const language = useSelector((state) => state.language?.language);
+  const { promoted, latest } = useContext(homeContext);
+  const [projectsState, setProjectsState] = useState({
+    status: "loading",
+    currOption: "recommendations",
+    promoted: [],
+    currPromoted: [],
+    latest: [],
+    currLatest: [],
+  });
   useEffect(() => {
-    if (recommended && recommended.length >= 4) {
-      let rec = [];
-      for (let i = 0; i < 4; i++) {
-        rec.push(recommended[i]);
-      }
-      setRecommendations(rec);
+    if (promoted) {
+      let randomPromoted =
+        Math.floor(Math.random() * (promoted.length / 4)) * 4;
+      let randomLatest = Math.floor(Math.random() * (promoted.length / 4)) * 4;
+      setProjectsState({
+        ...projectsState,
+        status: "filled",
+        promoted: promoted,
+        currPromoted: promoted.slice(randomPromoted, randomPromoted + 4),
+        latest: latest,
+        currLatest: latest.slice(randomLatest, randomLatest + 4),
+      });
     }
-  }, [recommended]);
-  useEffect(() => {
-    if (recommended.length >= 8 && recommendations !== []) {
-      const interval = setInterval(async () => {
-        let currRecs = recommendations;
-        const randomRecs = [];
-        for (let i = 0; i < 4; i++) {
-          let newRec = await recommended.map((project) => {
-            const filterRec = currRecs.filter((prj) => {
-              return prj._id === project._id;
-            });
-            if (!(filterRec && filterRec.length !== 0)) {
-              return project;
-            }
-          });
-          var cleanRec = await newRec.filter((rec) => {
-            return rec;
-          });
-          await randomRecs.push(
-            cleanRec[Math.floor(Math.random() * cleanRec.length)]
-          );
-          currRecs.push(randomRecs[i]);
-        }
-        setRecommendations(randomRecs);
-      }, 10000);
-      return () => clearInterval(interval);
-    }
-  }, [recommendations, recommended]);
+  }, [promoted, latest]);
   return (
-    <div className="homeProjects" id="homeProjects">
-      <div className="homeProjects-header">
-        <h4 className="h4 black-90">RECOMMENDATIONS</h4>
-        <Link href={"/projects"} className="homeProjects-header-button">
-          <h6 className="h6 orange">all projects</h6>
-          <i className="icon-32 orange">
-            <HiArrowLongRight />
+    <div className="relative z-10 w-full flex flex-col items-center bg-white gap-4 py-8 px-4 sm:px-8 xl:px-16 ">
+      <div className="w-[min(100%,1400px)] flex flex-wrap">
+        <div className="flex flex-row items-center gap-2 sm:gap-4">
+          <h4 className="h4 text-gray-900">
+            {language === "english"
+              ? "PROJECTS"
+              : language === "francais" && "PROJETS"}
+          </h4>
+          <select
+            className=" border border-gray-400 rounded-md bg-white outline-none small-p-16 h-[32px] sm:h-[40px]"
+            onChange={(e) => {
+              setProjectsState({
+                ...projectsState,
+                currOption: e.target.value,
+              });
+            }}
+          >
+            <option className="small-p-16" value="recommendations">
+              {language === "english"
+                ? "Recommendations"
+                : language === "francais" && "Recommandations"}
+            </option>
+            <option className="small-p-16" value="latest">
+              {language === "english"
+                ? "Latest"
+                : language === "francais" && "Le plus récent"}
+            </option>
+            {/* <option className="small-p-16" value="All">
+              {language === "english"
+                ? "All"
+                : language === "francais" && "Tout"}
+            </option> */}
+          </select>
+        </div>
+        <Link
+          className="flex flex-row items-center gap-2 ml-auto text-yellow-500"
+          href="/"
+        >
+          <h6 className="p hidden sm:block">
+            {language === "english"
+              ? "View all"
+              : language === "francais" && "Voir tout"}
+          </h6>
+          <i className="icon-32">
+            <BsArrowRight />
           </i>
         </Link>
       </div>
-      {recommendations.length === 4 && (
-        <div className="homeProjects-projects">
-          {recommendations.map(
-            ({ _id, uid, projectName, raised, donators, projectImg }) => {
-              return (
-                <Project
-                  key={_id}
-                  _id={_id}
-                  uid={uid}
-                  projectName={projectName}
-                  raised={raised}
-                  donators={donators}
-                  projectImg={
-                    projectImg && projectImg !== ""
-                      ? projectImg
-                      : "/exeption/profileImage.png"
-                  }
-                />
-              );
-            }
-          )}
-        </div>
-      )}
+
+      <div className="w-[min(100%,1400px)] grid grid-cols-repCards gap-6">
+        {projectsState.status === "filled" &&
+        projectsState.currOption === "recommendations"
+          ? projectsState.currPromoted?.map((project) => {
+              return <ProjectCard key={project._id} project={project} />;
+            })
+          : projectsState.status === "filled" &&
+            projectsState.currOption === "latest" &&
+            projectsState.currLatest?.map((project) => {
+              return <ProjectCard key={project._id} project={project} />;
+            })}
+      </div>
     </div>
   );
 }

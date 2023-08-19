@@ -1,103 +1,185 @@
-import Head from "next/head";
-import Image from "next/image";
-import { useSession } from "next-auth/react";
-import styles from "@/styles/Home.module.css";
-import Header from "@/components/Header";
 import Banner from "@/components/Banner";
+import HomeCampaigns from "@/components/HomeCampaigns";
+import HomeHWW from "@/components/HomeHWW";
+import HomePayment from "@/components/HomePayment";
 import HomeProjects from "@/components/HomeProjects";
-import Campaigns from "@/components/Campaigns";
-import Payment from "@/components/Payment";
-import HowWeWork from "@/components/HowWeWork";
-import { createContext, useContext, useEffect, useState } from "react";
-import { stateContext } from "./_app";
+import HomeWeProvide from "@/components/HomeWeProvide";
+import { setCategories } from "@/features/categoriesSlice";
+import { scrollPage } from "@/features/pageSlice";
+import { setProfile } from "@/features/profileSlice";
+import { setSession } from "@/features/sessionSlice";
+import { getSession, useSession } from "next-auth/react";
+import React, { createContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export const homeContext = createContext();
 
-export default function Home(recommendedProjects) {
+function Home({ profile, promoted, latest, banner, categories }) {
   const { data: session, status } = useSession();
-  const [recommended, setRecommended] = useState([]);
-  const [currentBanner, setCurrentBanner] = useState({});
-  const [currScroll, setCurrScroll] = useState(0);
-  const [currScrollDist, setCurrScrollDist] = useState(0);
-
-  const { navStatus, setNavStatus } = useContext(stateContext);
+  const dispatch = useDispatch();
+  const [homeState, setHomeState] = useState({ promoted, latest, banner });
 
   useEffect(() => {
-    const horizontalScroll = () => {
-      setCurrScroll(window.scrollY);
-    };
-    horizontalScroll();
-    document.addEventListener("scroll", horizontalScroll);
-    return () => document.removeEventListener("scroll", horizontalScroll);
-  }, []);
+    dispatch(setCategories(categories));
+  }, [categories]);
   useEffect(() => {
-    setCurrScrollDist(currScroll - navStatus.horScroll);
-    if (currScrollDist >= 0 && currScroll > 400) {
-      setNavStatus({
-        ...navStatus,
-        status: false,
-        horScroll: currScroll,
-        distScrolled: currScrollDist,
-      });
-    } else if (currScrollDist < 0 && currScroll > 400) {
-      setNavStatus({
-        ...navStatus,
-        status: true,
-        horScroll: currScroll,
-        distScrolled: currScrollDist,
-      });
-    } else if (currScroll <= 400) {
-      setNavStatus({
-        ...navStatus,
-        status: true,
-        horScroll: currScroll,
-        distScrolled: currScrollDist,
-      });
+    setHomeState({
+      ...homeState,
+      promoted: promoted,
+      latest: latest,
+      banner: banner,
+    });
+  }, [promoted, banner]);
+  useEffect(() => {
+    if (profile) {
+      dispatch(
+        setProfile({
+          profile: profile,
+          projects: profile.projects,
+          status: profile.status,
+        })
+      );
     }
-  }, [currScroll]);
+  }, [profile]);
   useEffect(() => {
-    setRecommended(recommendedProjects.recommendedProjects);
-  }, [recommendedProjects]);
+    if (session) {
+      dispatch(setSession(session.user));
+    }
+  }, [session]);
+  useEffect(() => {
+    const scrollPos = () => {
+      dispatch(scrollPage(window.scrollY));
+    };
+    scrollPos();
 
+    document.addEventListener("scroll", scrollPos);
+    return () => document.removeEventListener("scroll", scrollPos);
+  }, []);
   return (
-    <>
-      <Head>
-        <title>FINANCEE</title>
-        <meta name="description" content="FINANCEE home page" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <main className="main">
-        <homeContext.Provider
-          value={{ recommended, currentBanner, setCurrentBanner }}
-        >
-          <Banner />
-          {recommended.length >= 4 && <HomeProjects />}
-          <Campaigns />
-          <Payment />
-          <HowWeWork />
-        </homeContext.Provider>
-      </main>
-
-      <div></div>
-    </>
+    <div className="min-h-screen">
+      <homeContext.Provider
+        value={{
+          banner: homeState.banner,
+          promoted: homeState.promoted,
+          latest: homeState.latest,
+        }}
+      >
+        <Banner />
+        <HomeProjects />
+        <HomeCampaigns />
+        <HomePayment />
+        <HomeWeProvide />
+        <HomeHWW />
+      </homeContext.Provider>
+    </div>
   );
 }
 
-export async function getServerSideProps() {
-  const recommendedProjects = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : process.env.NODE_ENV === "production" &&
-          "https://financee-nu.vercel.app"
-    }/api`
-  ).then((data) => {
-    return data.json();
-  });
+export default Home;
 
-  return {
-    props: {
-      recommendedProjects,
-    },
-  };
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (session) {
+    const profile = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/profile/${session.user.id}`
+    ).then((data) => data.json());
+
+    const promoted = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/projects/promoted`
+    ).then((data) => data.json());
+
+    const latest = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/projects/latest`
+    ).then((data) => data.json());
+
+    const banner = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/global/banner`
+    ).then((data) => data.json());
+
+    const categories = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/global/categories`
+    ).then((data) => data.json());
+
+    const data = await Promise.all([
+      profile,
+      promoted,
+      latest,
+      banner,
+      categories,
+    ]);
+    return {
+      props: {
+        profile: data[0],
+        promoted: data[1],
+        latest: data[2],
+        banner: data[3],
+        categories: data[4],
+      },
+    };
+  } else {
+    //no session here
+
+    const promoted = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/projects/promoted`
+    ).then((data) => data.json());
+
+    const latest = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/projects/latest`
+    ).then((data) => data.json());
+
+    const banner = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/global/banner`
+    ).then((data) => data.json());
+
+    const categories = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? process.env.DOMAIN
+          : "http://localhost:3000"
+      }/api/global/categories`
+    ).then((data) => data.json());
+
+    const data = await Promise.all([promoted, latest, banner, categories]);
+    return {
+      props: {
+        promoted: data[0],
+        latest: data[1],
+        banner: data[2],
+        categories: data[3],
+      },
+    };
+  }
 }

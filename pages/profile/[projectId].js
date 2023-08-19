@@ -1,241 +1,171 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import Head from "next/head";
+import ActivitiesForm from "@/components/ActivitiesForm";
+import ProjectActivities from "@/components/ProjectActivities";
+import ProjectBanner from "@/components/ProjectBanner";
+import ProjectDescription from "@/components/ProjectDescription";
+import ProjectDonate from "@/components/ProjectDonate";
+import ProjectUpdates from "@/components/ProjectUpdates";
+import { setCategories } from "@/features/categoriesSlice";
+import { scrollPage } from "@/features/pageSlice";
+import { setProfile } from "@/features/profileSlice";
+import { setProject } from "@/features/projectSlice";
+import { removeSession, setSession } from "@/features/sessionSlice";
 import { getSession, useSession } from "next-auth/react";
-import ProfileMSG from "@/components/ProfileMSG";
-import ProfileHeader from "@/components/ProfileHeader";
-import { stateContext } from "../_app";
-import axios from "axios";
-import { BsEye, BsFillSuitHeartFill } from "react-icons/bs";
-import { GiMoneyStack } from "react-icons/gi";
-import { FaDonate } from "react-icons/fa";
-import ProfileDescription from "@/components/ProfileDescription";
-import ProfileImage from "@/components/ProfileImage";
-import ProfileElement from "@/components/ProfileElement";
-import ProfileCategory from "@/components/ProfileCategory";
+import Link from "next/link";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { FiChevronLeft, FiEdit3 } from "react-icons/fi";
+import { HiEye } from "react-icons/hi2";
+import { useDispatch, useSelector } from "react-redux";
+import { appContext } from "../_app";
 
-export const projectContext = createContext();
-
-function ProfileUser({ project, pid }) {
+function ProfileProject({ profile, categories, project }) {
   const { data: session, status } = useSession();
-
-  const { reload, setReload } = useContext(stateContext);
-
-  const [projectState, setProjectState] = useState(project);
+  const language = useSelector((state) => state.language?.language);
+  const user = useSelector((state) => state.session?.session);
+  const dispatch = useDispatch();
+  const { projectState, setProjectState } = useContext(appContext);
 
   useEffect(() => {
-    setProjectState(project);
+    setProjectState({ ...projectState, project: project });
   }, [project]);
   useEffect(() => {
-    if (reload.status && reload.function === "updateProject") {
-      axios
-        .get(
-          `${
-            process.env.NODE_ENV === "development"
-              ? "http://localhost:3000"
-              : process.env.NODE_ENV === "production" &&
-                "https://financee-nu.vercel.app"
-          }/api/projects/test/${pid}`
-        )
-        .then((res) => {
-          setProjectState(res.data);
-          setReload({
-            status: false,
-            function: "",
-            uid: "",
-            path: "",
-          });
-        });
+    dispatch(setCategories(categories));
+  }, [categories]);
+  useEffect(() => {
+    if (profile) {
+      dispatch(
+        setProfile({
+          profile: profile,
+          projects: profile.projects,
+          status: profile.status,
+        })
+      );
     }
-  }, [reload]);
+  }, [profile]);
+  useEffect(() => {
+    if (session) {
+      dispatch(setSession(session.user));
+    } else {
+      dispatch(removeSession());
+    }
+  }, [session]);
+  useEffect(() => {
+    const scrollHor = () => {
+      dispatch(scrollPage(window.scrollY));
+    };
+    scrollHor();
+
+    document.addEventListener("scroll", scrollHor);
+    return () => document.removeEventListener("scroll", scrollHor);
+  }, []);
   return (
-    <projectContext.Provider value={{ session, projectState }}>
-      <Head>
-        <title>FINANCEE | {projectState?.projectName}</title>
-        <meta name="description" content="FINANCEE profile/project page" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      {!projectState ? (
-        <div className="profile">
-          <h6 className="h6 black-70">loading ...</h6>
-        </div>
-      ) : (
-        <div className="profile">
-          <div className="profile-user">
-            {/* <div className="profile-user-img">
-          {session && (
-            <Image
-              src={session.user.image}
-              alt={""}
-              width={100}
-              height={100}
-            ></Image>
-          )}
-        </div> */}
-            <h5 className="h5 black-90">{`${session?.user.name}`}</h5>
-            {/* remove this ----------------------------------------------------- */}
-            {/* <button
-          className="profile-delete"
-          onClick={() =>
-            deleteProject(session?.user.id, { id: `${session?.user.id}` })
-          }
-        >
-          <h6 className="h6 red-pink">delete</h6>
-        </button> */}
-          </div>
-          {/* remove this ------------------------------------- */}
-          {/* <div className="profile-projects">
-        <div className="profile-projects-header">
-          <h5 className="h5 black-90">MY PROJECTS</h5>
-          <Link
-            href={"/profile/new"}
-            className={`profile-text-btn linear-gold`}
+    <div className="w-full min-h-screen">
+      <div className="w-full flex flex-row items-center h-[40px] sm:h-[48px] px-4 sm:px-8 xl:px-16 border-b border-gray-400 sticky top-[56px] sm:top-[64px] bg-white z-30">
+        <h5 className="h5 text-gray-950">{user?.name}</h5>
+        <div className="ml-auto flex flex-row items-center gap-2">
+          <button
+            className="h-8 w-8 gap-1 flex flex-row items-center justify-center bg-slate-100 rounded-full"
+            onClick={() => {
+              if (projectState.status === "edit") {
+                setProjectState({ ...projectState, status: "showcase" });
+              } else if (projectState.status === "showcase") {
+                setProjectState({ ...projectState, status: "edit" });
+              }
+            }}
           >
-            <h6 className="h6 white">New Project</h6>
+            <i className="icon-20 text-gray-800 rounded-full">
+              {projectState.status === "edit" ? <HiEye /> : <FiEdit3 />}
+            </i>
+          </button>
+          <Link
+            href="/profile"
+            className="px-4 h-8 rounded-full bg-slate-100 text-gray-800 flex flex-row items-center"
+          >
+            <i className="icon-20">
+              <FiChevronLeft />
+            </i>
+            <p className="small-h6">
+              {language === "english"
+                ? "PROFILE"
+                : language === "francais" && "PROFIL"}
+            </p>
           </Link>
         </div>
-      </div> */}
-          <div className={"profile-project"}>
-            {/* remove this ---------------------------------------------- */}
-            {/* {projectState.adminMSG?.status && (
-          <ProfileMSG message={projectState.adminMSG} type="blueMSG" />
-        )}
-        {projectState.adminMassMSG?.status && (
-          <ProfileMSG message={projectState.adminMassMSG} type="blackMSG" />
-        )} */}
-
-            {projectState.statusMSG?.status && (
-              <ProfileMSG
-                message={projectState?.statusMSG}
-                type={
-                  projectState.status === "blocked" ||
-                  projectState.status === "declined"
-                    ? "redMSG"
-                    : "greenMSG"
-                }
-                pid={projectState?._id}
-              />
-            )}
-
-            <ProfileHeader />
-            <div className="profile-progress-bar">
-              <div className="profile-progress-items">
-                <div className="profile-progress-item">
-                  <i className="icon-40 black-80">
-                    <BsFillSuitHeartFill />
-                  </i>
-                  <h6 className="h6 black-80">{`${
-                    projectState.likes ? projectState.likes : 0
-                  } likes`}</h6>
-                </div>
-                <div className="profile-progress-item">
-                  <i className="icon-40 black-80">
-                    <GiMoneyStack />
-                  </i>
-                  <h6 className="h6 black-80">{`${
-                    projectState.raised ? projectState.raised : 0
-                  } DA raised`}</h6>
-                </div>
-              </div>
-              <div className="profile-progress-items">
-                <div className="profile-progress-item">
-                  <i className="icon-40 black-80">
-                    <FaDonate />
-                  </i>
-                  <h6 className="h6 black-80">{`${
-                    projectState.donators ? projectState.donators : 0
-                  } donators`}</h6>
-                </div>
-                <div className="profile-progress-item">
-                  <i className="icon-40 black-80">
-                    <BsEye />
-                  </i>
-                  <h6 className="h6 black-80">{`${
-                    projectState.views ? projectState.views : 0
-                  } views`}</h6>
-                </div>
-              </div>
-            </div>
-            <ProfileDescription />
-            <div className="profile-text-container">
-              <h6 className="h6 black-70 text-center">{"IMAGE"}</h6>
-            </div>
-            <ProfileImage />
-            <div className="profile-text-container">
-              <h6 className="h6 black-70 text-center">{"AMOUNT NEEDED"}</h6>
-            </div>
-            <ProfileElement
-              element={"amount"}
-              profileElement={projectState.amount}
-              session={session}
-              project={projectState}
-            />
-            <div className="profile-text-container">
-              <h6 className="h6 black-70 text-center">{"CATEGORY"}</h6>
-            </div>
-            <ProfileCategory />
-          </div>{" "}
-        </div>
+      </div>
+      <ProjectBanner
+        project={projectState.project}
+        projectStatus={projectState.status}
+      />
+      <ProjectDescription
+        project={projectState.project}
+        projectStatus={projectState.status}
+      />
+      {projectState.status === "showcase" ? (
+        <ProjectActivities
+          project={projectState.project}
+          projectStatus={projectState.status}
+        />
+      ) : (
+        projectState.status === "edit" && (
+          <ActivitiesForm
+            project={projectState.project}
+            projectStatus={projectState.status}
+          />
+        )
       )}
-    </projectContext.Provider>
+      {(projectState.project?.updates || projectState.status === "edit") && (
+        <ProjectUpdates
+          project={projectState.project}
+          projectStatus={projectState.status}
+        />
+      )}
+    </div>
   );
 }
 
-export default ProfileUser;
+export default ProfileProject;
 
 export async function getServerSideProps(context) {
-  const { projectId } = await context.params;
-
   const session = await getSession(context);
+  const { projectId } = await context.params;
+  if (session) {
+    const profile = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? "domain here"
+          : "http://localhost:3000"
+      }/api/profile/${session.user.id}`
+    ).then((data) => data.json());
 
-  if (!session) {
+    const categories = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? "domain here"
+          : "http://localhost:3000"
+      }/api/global/categories`
+    ).then((data) => data.json());
+
+    const project = fetch(
+      `${
+        process.env.NODE_ENV === "production"
+          ? "domain here"
+          : "http://localhost:3000"
+      }/api/profile/projects/${projectId}`
+    ).then((data) => data.json());
+
+    const data = await Promise.all([profile, categories, project]);
+    return {
+      props: {
+        profile: data[0],
+        categories: data[1],
+        project: data[2],
+      },
+    };
+  } else {
     return {
       redirect: {
-        destination: `/api/auth/signin?callbackUrl=${`/profile/new`}`,
+        destination: `/api/auth/signin?callbackUrl=${`/profile`}`,
         peranent: false,
       },
     };
   }
-
-  const profile = await fetch(
-    `https://financee-nu.vercel.app/api/profile/${session?.user.id}`
-  )
-    .then((data) => {
-      return data.json();
-    })
-    .catch((err) => console.log(err));
-
-  var projectAllowed = true;
-
-  await profile.projects?.map((project) => {
-    if (project.insertedID === projectId) {
-      projectAllowed = false;
-    }
-  });
-  console.log(session, projectAllowed, profile);
-
-  if (projectAllowed) {
-    return {
-      redirect: {
-        destination: `/profile`,
-        peranent: false,
-      },
-    };
-  }
-
-  const project = await fetch(
-    `${
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : process.env.NODE_ENV === "production" &&
-          "https://financee-nu.vercel.app"
-    }/api/projects/test/${projectId}`
-  ).then((data) => {
-    return data.json();
-  });
-  return {
-    props: {
-      project,
-      pid: projectId,
-    },
-  };
 }
