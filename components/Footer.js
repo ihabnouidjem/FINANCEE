@@ -172,7 +172,7 @@ function Footer() {
             ? "Credits:"
             : language === "francais" && "Crédits:"}{" "}
           <Link
-            href="ihabnouidjem.com"
+            href="https://ihabnouidjem.com"
             className="font-semibold"
             target={"_blink"}
           >
