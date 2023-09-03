@@ -64,7 +64,7 @@ function ProjectBanner({ projectStatus, project }) {
               ? bannerState.newImageURL
               : project?.image
               ? project?.image
-              : `/exeptions/banner.jpg`
+              : `/exeptions/people.jpg`
           }
           alt="project"
           height={500}

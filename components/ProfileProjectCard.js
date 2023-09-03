@@ -11,7 +11,7 @@ function ProfileProjectCard({ project }) {
       <div className="w-full h-[200px]">
         <Image
           className="w-full h-full flex items-center justify-center object-cover"
-          src={project.image ? `${project.image}` : "/exeptions/banner.jpg"}
+          src={project.image ? `${project.image}` : "/exeptions/people.jpg"}
           alt="project"
           height={200}
           width={300}

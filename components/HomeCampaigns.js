@@ -32,36 +32,36 @@ function HomeCampaigns() {
       <div className="w-[min(100%,1400px)] rounded-2xl overflow-hidden">
         <div className="grid grid-cols-repAuto grid-rows-1fr gap-4 relative animate-h_Campaigns">
           <Link
-            href={`/`}
+            href={`/profile`}
             className="aspect-[3/1] row-1/2 w-[min(calc(100vw-32px),1400px)] sm:w-[min(calc(100vw-64px),1400px)] xl:w-[min(calc(100vw-128px),1400px)]"
           >
             <Image
               className="w-full h-full flex items-center justify-center object-cover row-1/2"
-              src={"/exeptions/campaign_1.jpeg"}
+              src={"/exeptions/campaign.png"}
               alt={"campaign"}
               height={400}
               width={1400}
             />
           </Link>
           <Link
-            href={`/`}
+            href={`/profile`}
             className="aspect-[3/1] row-1/2 w-[min(calc(100vw-32px),1400px)] sm:w-[min(calc(100vw-64px),1400px)] xl:w-[min(calc(100vw-128px),1400px)]"
           >
             <Image
               className="w-full h-full flex items-center justify-center object-cover rounded-2xl row-1/2"
-              src={"/exeptions/campaign_2.jpg"}
+              src={"/exeptions/campaign2.png"}
               alt={"campaign"}
               height={400}
               width={1400}
             />
           </Link>
           <Link
-            href={`/`}
+            href={`/profile`}
             className="aspect-[3/1] row-1/2 w-[min(calc(100vw-32px),1400px)] sm:w-[min(calc(100vw-64px),1400px)] xl:w-[min(calc(100vw-128px),1400px)]"
           >
             <Image
               className="w-full h-full flex items-center justify-center object-cover rounded-2xl row-1/2"
-              src={"/exeptions/campaign_1.jpeg"}
+              src={"/exeptions/campaign.png"}
               alt={"campaign"}
               height={400}
               width={1400}

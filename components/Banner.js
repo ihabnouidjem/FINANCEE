@@ -41,19 +41,21 @@ function Banner() {
         style={{
           height: scrollY > 500 ? `0px` : `${500 - scrollY}px`,
         }}
-        className={`w-full flex items-center justify-center fixed z-0 left-0 top-[56px] sm:top-16 `}
+        className={`w-full flex items-center justify-center fixed z-0 left-0 top-[56px] sm:top-16 bg-zinc-600`}
       >
-        <Image
-          className="w-full min-w-[1000px] h-full object-cover flex items-center justify-center"
-          src={
-            bannerState.status === "filled"
-              ? `${bannerState.currBanner?.image}`
-              : "/exeptions/banner.jpg"
-          }
-          alt="banner"
-          height={600}
-          width={2000}
-        />
+        {bannerState.status === "filled" && (
+          <Image
+            className="w-full min-w-[1000px] h-full object-cover flex items-center justify-center"
+            src={
+              bannerState.status === "filled"
+                ? `${bannerState.currBanner?.image}`
+                : "/exeptions/banner.jpg"
+            }
+            alt="banner"
+            height={600}
+            width={2000}
+          />
+        )}
       </div>
       <div className="w-full h-[500px] relative z-[10] px-4 sm:px-8 xl:px-16">
         <div className="h-full w-[min(100%,1000px)] flex flex-col justify-end pb-8 xl:pb-16 gap-4">

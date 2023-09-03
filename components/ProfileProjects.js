@@ -9,7 +9,7 @@ function ProfileProjects({ projects }) {
       <div className="w-full h-[500px] col-1/2 row-1/2 z-0">
         <Image
           className="w-full h-full flex items-center justify-center object-cover"
-          src={`/exeptions/banner.jpg`}
+          src={`/exeptions/business.jpg`}
           alt="profile"
           height={500}
           width={2000}

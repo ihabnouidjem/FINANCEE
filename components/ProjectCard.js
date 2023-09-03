@@ -13,7 +13,7 @@ function ProjectCard({ project }) {
       <div className="w-[300px] h-[200px] flex items-center justify-center">
         <Image
           className="w-full h-full flex items-center justify-center object-cover rounded-2xl"
-          src={project.image ? `${project.image}` : "/exeptions/banner.jpg"}
+          src={project.image ? `${project.image}` : "/exeptions/people.jpg"}
           alt="project"
           height={300}
           width={300}

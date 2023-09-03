@@ -17,15 +17,29 @@ function HomeProjects() {
     currLatest: [],
   });
   useEffect(() => {
-    if (promoted) {
+    if (promoted?.length > 0) {
       let randomPromoted =
         Math.floor(Math.random() * (promoted.length / 4)) * 4;
       let randomLatest = Math.floor(Math.random() * (promoted.length / 4)) * 4;
       setProjectsState({
         ...projectsState,
         status: "filled",
+        currOption: "recommendations",
         promoted: promoted,
         currPromoted: promoted.slice(randomPromoted, randomPromoted + 4),
+        latest: latest,
+        currLatest: latest.slice(randomLatest, randomLatest + 4),
+      });
+    } else {
+      // let randomPromoted =
+      // Math.floor(Math.random() * (promoted.length / 4)) * 4;
+      let randomLatest = Math.floor(Math.random() * (promoted.length / 4)) * 4;
+      setProjectsState({
+        ...projectsState,
+        status: "filled",
+        currOption: "latest",
+        // promoted: promoted,
+        // currPromoted: promoted.slice(randomPromoted, randomPromoted + 4),
         latest: latest,
         currLatest: latest.slice(randomLatest, randomLatest + 4),
       });
@@ -49,16 +63,21 @@ function HomeProjects() {
               });
             }}
           >
-            <option className="small-p-16" value="recommendations">
-              {language === "english"
-                ? "Recommendations"
-                : language === "francais" && "Recommandations"}
-            </option>
-            <option className="small-p-16" value="latest">
-              {language === "english"
-                ? "Latest"
-                : language === "francais" && "Le plus récent"}
-            </option>
+            {projectsState.currPromoted?.length > 0 && (
+              <option className="small-p-16" value="recommendations">
+                {language === "english"
+                  ? "Recommendations"
+                  : language === "francais" && "Recommandations"}
+              </option>
+            )}
+            {projectsState.currLatest?.length > 0 && (
+              <option className="small-p-16" value="latest">
+                {language === "english"
+                  ? "Latest"
+                  : language === "francais" && "Le plus récent"}
+              </option>
+            )}
+
             {/* <option className="small-p-16" value="All">
               {language === "english"
                 ? "All"
