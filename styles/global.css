@@ -23,6 +23,9 @@ input:active,textarea:active{
     outline: none!important;
 }
 
+html{
+    scroll-behavior: smooth;
+}
 
 .h1{
     @apply font-roboto font-medium text-[55px] sm:text-[102px] xl:text-[113px];

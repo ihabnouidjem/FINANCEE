@@ -14,21 +14,21 @@ function Footer() {
       <div className="w-full p-4 rounded-xl bg-slate-950 shadow-inner flex flex-wrap gap-4 sm:gap-16">
         <div className="flex flex-col gap-2">
           <h5 className="h5 text-white">FINANCEE</h5>
-          <Link href="">
+          <Link href="/about">
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
                 ? "terms & conditions"
                 : language === "francais" && " termes et conditions"}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/about">
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
                 ? "privacy policy"
                 : language === "francais" && "politique de confidentialité"}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/about">
             {" "}
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
@@ -36,7 +36,7 @@ function Footer() {
                 : language === "francais" && "campagnes"}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/about">
             {" "}
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
@@ -44,7 +44,7 @@ function Footer() {
                 : language === "francais" && "sécurité"}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/about">
             {" "}
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
@@ -60,21 +60,21 @@ function Footer() {
               ? "SERVICES"
               : language === "francais" && "SERVICES"}
           </h5>
-          <Link href="">
+          <Link href="/about">
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
                 ? "payment"
                 : language === "francais" && "paiement"}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/about">
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
                 ? "marketing & promotion"
                 : language === "francais" && "marketing et promotion"}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/about">
             {" "}
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
@@ -82,7 +82,7 @@ function Footer() {
                 : language === "francais" && "analyses et rapports"}{" "}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/about">
             {" "}
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
@@ -98,29 +98,29 @@ function Footer() {
               ? "NAVIGATION"
               : language === "francais" && "NAVIGATION"}
           </h5>
-          <Link href="">
+          <Link href="/#projects">
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
                 ? "projects"
                 : language === "francais" && "projets"}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/#campaigns">
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
                 ? "campaigns"
                 : language === "francais" && "campagnes"}
             </p>
           </Link>
-          <Link href="">
+          {/* <Link href="/">
             {" "}
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
                 ? "payment"
                 : language === "francais" && "paiement"}
             </p>
-          </Link>
-          <Link href="">
+          </Link> */}
+          <Link href="/#weProvide">
             {" "}
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"
@@ -128,7 +128,7 @@ function Footer() {
                 : language === "francais" && "nous fournissons"}
             </p>
           </Link>
-          <Link href="">
+          <Link href="/#hww">
             {" "}
             <p className="p text-gray-300 mx-2 hover:text-white">
               {language === "english"

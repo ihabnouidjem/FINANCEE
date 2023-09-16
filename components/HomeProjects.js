@@ -46,7 +46,10 @@ function HomeProjects() {
     }
   }, [promoted, latest]);
   return (
-    <div className="relative z-10 w-full flex flex-col items-center bg-white gap-4 py-8 px-4 sm:px-8 xl:px-16 ">
+    <div
+      id="projects"
+      className="relative z-10 w-full flex flex-col items-center bg-white gap-4 py-8 px-4 sm:px-8 xl:px-16 "
+    >
       <div className="w-[min(100%,1400px)] flex flex-wrap">
         <div className="flex flex-row items-center gap-2 sm:gap-4">
           <h4 className="h4 text-gray-900">
@@ -87,7 +90,7 @@ function HomeProjects() {
         </div>
         <Link
           className="flex flex-row items-center gap-2 ml-auto text-yellow-500"
-          href="/"
+          href="/projects"
         >
           <h6 className="p hidden sm:block">
             {language === "english"

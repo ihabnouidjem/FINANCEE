@@ -137,12 +137,12 @@ function Checkout() {
                   "Veuillez considérer qu'un fonds dont le montant est inférieur au montant ci-dessus ne sera pas approuvé et vous ne serez pas récompensé pour cela."}
             </h6>
           )}
-          <h6 className="small-h6 text-zinc-900 w-full">
+          {/* <h6 className="small-h6 text-zinc-900 w-full">
             {language === "english"
               ? "Please consider that a fund with an amount less than the above amount will not be approved and you will not be rewarded for it"
               : language === "francais" &&
                 "Veuillez considérer qu'un fonds dont le montant est inférieur au montant ci-dessus ne sera pas approuvé et vous ne serez pas récompensé pour cela."}
-          </h6>
+          </h6> */}
           <h6 className="med-h6 text-zinc-900 w-full">
             {language === "english"
               ? "2. Go to your email and take a screenshot confirming this transaction"

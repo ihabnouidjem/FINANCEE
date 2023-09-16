@@ -32,13 +32,15 @@ function ProjectPage({ profile, categories, project }) {
     dispatch(setCategories(categories));
   }, [categories]);
   useEffect(() => {
-    dispatch(
-      setProfile({
-        profile: profile,
-        projects: profile.projects,
-        status: profile.status,
-      })
-    );
+    if (profile) {
+      dispatch(
+        setProfile({
+          profile: profile,
+          projects: profile.projects,
+          status: profile.status,
+        })
+      );
+    }
   }, [profile]);
   useEffect(() => {
     if (session) {

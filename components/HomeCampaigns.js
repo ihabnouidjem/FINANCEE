@@ -8,14 +8,17 @@ function HomeCampaigns() {
   const language = useSelector((state) => state.language?.language);
 
   return (
-    <div className="w-full flex flex-col gap-4 items-center py-8 px-4 sm:px-8 xl:px-16">
-      <div className="w-[min(100%,1400px)] flex items-center justify-between">
+    <div
+      id="campaigns"
+      className=" w-full flex flex-col gap-4 items-center py-8 px-4 sm:px-8 xl:px-16"
+    >
+      <div className="w-[min(100%,1400px)] flex items-center">
         <h4 className="h4 text-gray-900">
           {language === "english"
             ? "CAMPAIGNS"
             : language === "francais" && "CAMPAGNES"}
         </h4>
-        <Link
+        {/* <Link
           className="flex flex-row items-center gap-2 ml-auto text-yellow-500"
           href="/"
         >
@@ -27,7 +30,7 @@ function HomeCampaigns() {
           <i className="icon-32">
             <BsArrowRight />
           </i>
-        </Link>
+        </Link> */}
       </div>
       <div className="w-[min(100%,1400px)] rounded-2xl overflow-hidden">
         <div className="grid grid-cols-repAuto grid-rows-1fr gap-4 relative animate-h_Campaigns">

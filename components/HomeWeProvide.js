@@ -5,7 +5,10 @@ import { useSelector } from "react-redux";
 function HomeWeProvide() {
   const language = useSelector((state) => state.language?.language);
   return (
-    <div className="w-full flex flex-col items-center gap-4  py-8 px-4 sm:px-8 xl:px-16">
+    <div
+      id="weProvide"
+      className="w-full flex flex-col items-center gap-4  py-8 px-4 sm:px-8 xl:px-16"
+    >
       <div className="w-[min(100%,1400px)] flex items-center justify-between">
         <h4 className="h4 text-gray-900">
           {language === "english"

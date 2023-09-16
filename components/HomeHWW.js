@@ -9,7 +9,10 @@ function HomeHWW() {
   const language = useSelector((state) => state.language?.language);
 
   return (
-    <div className="w-full flex flex-col items-center gap-6  py-8 px-4 sm:px-8 xl:px-16">
+    <div
+      id="hww"
+      className="w-full flex flex-col items-center gap-6  py-8 px-4 sm:px-8 xl:px-16"
+    >
       <div className="w-[min(100%,1400px)] flex items-center justify-between">
         <h4 className="h4 text-gray-900">
           {language === "english"
@@ -49,7 +52,7 @@ function HomeHWW() {
         </div>
         <Link
           className="flex flex-row items-center gap-2 px-4 py-2 rounded-xl text-yellow-500"
-          href=""
+          href="/profile"
         >
           <p className="small-p-16">
             {language === "english"
@@ -85,7 +88,7 @@ function HomeHWW() {
         </div>
         <Link
           className="flex flex-row items-center gap-2 px-3 py-[6px] rounded-lg bg-blue-500 text-white active:scale-90 transition duration-200"
-          href=""
+          href="/about"
           target={"_blank"}
         >
           <p className="small-p-16">
@@ -122,7 +125,7 @@ function HomeHWW() {
         </div>
         <Link
           className="flex flex-row items-center gap-2 px-3 py-[6px] rounded-lg bg-blue-500 text-white active:scale-90 transition duration-200"
-          href=""
+          href="/about"
           target={"_blank"}
         >
           <p className="small-p-16">
