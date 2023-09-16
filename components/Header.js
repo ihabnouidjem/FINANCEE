@@ -145,7 +145,7 @@ function Header() {
                 </Link>
               )}
             </div>
-            {session?.user && (
+            {session && (
               <div className="hidden md:hover:block md:group-hover:block border-t border-gray-400 bg-white shadow-md fixed p-4 pt-6 rounded-b-2xl z-[51]  w-[min(calc(100%-32px),600px)] md:top-[63px] md:right-4 xl:w-[min(calc(100%-96px),600px)] xl:right-12">
                 <ProfileNav />
               </div>

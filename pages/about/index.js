@@ -53,8 +53,8 @@ function About({ profile, categories }) {
           <div className="w-full flex flex-col gap-[2px]">
             <h4 className="w-full h4  text-zinc-950">
               {language === "english"
-                ? `CONTACT INFO`
-                : `INFORMATIONS DE CONTACT`}
+                ? `Contact info`
+                : `Informations de contact`}
             </h4>
           </div>
           <div className="w-full flex flex-col gap-[2px]">
